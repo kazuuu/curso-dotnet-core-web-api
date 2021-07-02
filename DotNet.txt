@@ -16,7 +16,6 @@
 		ii.	Microsoft.EntityFrameworkCore.Tools
 		iii.	Microsoft.EntityFrameworkCore.Design
 		iv.	Pomelo.EntityFrameworkCore.MySql
-		v.	Microsoft.EntityFrameworkCore.SqlServer
 7)	Criar um Contexto MySQLContext e colocar num diretório Infra.
 8)	Configurar no Startup.cs o Contexto com Entity.
 9)	Colocar a String de Conexao no appsettings.json.
@@ -86,13 +85,22 @@
 		i. Authentication
 		ii. JwtBearer
 		iii. Adicione o "app.UseAuthentication();" ANTES do "app.UseAuthorization();"
-25) Adicione o Authorized na ÁreaController
-25) Testar com o Postman.
-26) Crie um modelo com o nome de "Cobranca.cs" e inclua-o na MySQLContext
+25) Adicione o Authorize na ÁreaController
+26) Adicionar um método na Service responsável por adicionar um usuário a uma área e implementa-lo na Controller
+27) Testar com o Postman.
+28) Crie um modelo com o nome de "Cobranca.cs" e inclua-o na MySQLContext
 	a. Faça os passos do 15 até o 17 novamente, trocando o nome de Área para Cobranca.
-	b. Adicione a "CobrancaController" e adicionar o Authorized nela.
-27) Abrir o Package Manager Console para criar o Migration Cobranca: 
+	b. Adicione a "CobrancaController" e adicionar o Authorize nela.
+29) Abrir o Package Manager Console para criar o Migration Cobranca: 
 	a. Add-Migration Cobranca
 	b. Update-Database
-28) Adicionar um método na Service responsável por alterar o status da cobrança e implementa-lo na Controller
-29) Testar com o Postman 
+30) Adicionar um método na Service responsável por alterar o status da cobrança e implementa-lo na Controller
+31) Testar com o Postman 
+32) Crie um modelo com o nome de "InstituicaoFinanceira.cs" e inclua-o na MySQLContext
+	a. Faça os passos do 15 até o 17 novamente, trocando o nome de Área para IF.
+		i. Implemente somente os métodos de busca
+	b. Adicione a "IFController" com o Authorize nela.
+33) Abrir o Package Manager Console para criar o Migration InstituicaoFinanceira: 
+	a. Add-Migration InstituicaoFinanceira
+	b. Update-Database
+34) Testar com o Postman

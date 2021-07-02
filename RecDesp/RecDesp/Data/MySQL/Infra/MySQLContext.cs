@@ -2,10 +2,6 @@
 using Microsoft.EntityFrameworkCore;
 using RecDesp.Domain.Models;
 using RecDesp.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace RecDesp.Infra
 {
@@ -19,15 +15,24 @@ namespace RecDesp.Infra
         public DbSet<ApplicationRole> Role { get; set; }
         public DbSet<Area> Areas { get; set; }
         public DbSet<Cobranca> Cobrancas { get; set; }
+        public DbSet<InstituicaoFinanceira> InstituicoesFinanceiras { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<ApplicationUser>().ToTable("AspNetUsers").HasKey(t => t.Id);
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<Area>()
+            /*modelBuilder.Entity<Area>()
                 .HasData(
                     new Area { Id = 1, NomeArea = "Treinamento", Saldo = 2000 }
+                );*/
+
+            modelBuilder.Entity<InstituicaoFinanceira>()
+                .HasData(
+                    new InstituicaoFinanceira { Id = 1, Nome = "Banco do Brasil" },
+                    new InstituicaoFinanceira { Id = 2, Nome = "Bradesco" },
+                    new InstituicaoFinanceira { Id = 3, Nome = "Caixa Econômica Federal" },
+                    new InstituicaoFinanceira { Id = 4, Nome = "Santander" }
                 );
         }
     }

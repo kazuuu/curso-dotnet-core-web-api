@@ -88,3 +88,11 @@
 		iii. Adicione o "app.UseAuthentication();" ANTES do "app.UseAuthorization();"
 25) Adicione o Authorized na ÁreaController
 25) Testar com o Postman.
+26) Crie um modelo com o nome de "Cobranca.cs" e inclua-o na MySQLContext
+	a. Faça os passos do 15 até o 17 novamente, trocando o nome de Área para Cobranca.
+	b. Adicione a "CobrancaController" e adicionar o Authorized nela.
+27) Abrir o Package Manager Console para criar o Migration Cobranca: 
+	a. Add-Migration Cobranca
+	b. Update-Database
+28) Adicionar um método na Service responsável por alterar o status da cobrança e implementa-lo na Controller
+29) Testar com o Postman 

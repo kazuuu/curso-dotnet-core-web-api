@@ -18,6 +18,7 @@ namespace RecDesp.Infra
         public DbSet<ApplicationUser> User { get; set; }
         public DbSet<ApplicationRole> Role { get; set; }
         public DbSet<Area> Areas { get; set; }
+        public DbSet<Cobranca> Cobrancas { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

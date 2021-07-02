@@ -82,9 +82,11 @@ namespace RecDesp
 
             services.AddScoped<IAreaService, AreaService>();
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<ICobrancaService, CobrancaService>();
             services.AddScoped(typeof(IGenericRepository<,>), typeof(GenericRepository<,>));
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IAreaRepository, AreaRepository>();
+            services.AddScoped<ICobrancaRepository, CobrancaRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

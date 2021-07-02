@@ -4,32 +4,35 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using RecDesp.Domain.Models;
 using RecDesp.Domain.Services;
 using RecDesp.Models;
 
-namespace RecDesp.Controllers
+namespace RecDesp.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
     [Authorize]
-    public class AreaController : ControllerBase
+    public class CobrancaController : ControllerBase
     {
+        private readonly ICobrancaService _cobrancaService;
         private readonly IAreaService _areaService;
 
-        public AreaController(IAreaService areaService)
+        public CobrancaController(ICobrancaService cobrancaService, IAreaService areaService)
         {
+            _cobrancaService = cobrancaService;
             _areaService = areaService;
         }
 
         [HttpGet]
-        [Route("list-areas")]
-        public async Task<IActionResult> ListAreas()
+        [Route("list-cobrancas")]
+        public async Task<IActionResult> ListCobrancas()
         {
             try
             {
-                List<Area> areas = await _areaService.ListAreas();
- 
-                return Ok(areas);
+                List<Cobranca> cobrancas = await _cobrancaService.ListCobrancas();
+
+                return Ok(cobrancas);
             }
             catch (ArgumentException e)
             {
@@ -43,13 +46,13 @@ namespace RecDesp.Controllers
 
         [HttpGet]
         [Route("get-by-id")]
-        public async Task<IActionResult> GetArea([FromQuery] long id)
+        public async Task<IActionResult> GetCobranca([FromQuery] long id)
         {
             try
             {
-                Area newArea = await _areaService.GetAreaById(id);
-                
-                return Ok(newArea);
+                Cobranca newCobranca = await _cobrancaService.GetCobrancaById(id);
+
+                return Ok(newCobranca);
             }
             catch (ArgumentException e)
             {
@@ -62,35 +65,21 @@ namespace RecDesp.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> PostArea([FromBody] Area area)
+        public async Task<IActionResult> PostCobranca([FromQuery] long fromArea, long toArea, [FromBody] Cobranca cobranca)
         {
             try
             {
-                Area newArea = await _areaService.CreateArea(area);
+                // pegando as áreas para serem salvas na cobrança
+                Area fromNewArea = await _areaService.GetAreaById(fromArea);
+                Area toNewArea = await _areaService.GetAreaById(toArea);
 
-                return Ok(newArea);
-            }
-            catch (ArgumentException e)
-            {
-                return BadRequest(e.Message);
-            }
-            catch (Exception e)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
-            }
-        }
+                cobranca.FromArea = fromNewArea;
+                cobranca.ToArea = toNewArea;
+                cobranca.Data = DateTime.Now; // salva a data de quando foi feita a cobrança
 
-        [HttpPut]
-        [Route("put-by-id")]
-        public async Task<IActionResult> PutArea([FromQuery] long id, [FromBody] Area area)
-        {
-            try
-            {
-                area.Id = id;
+                Cobranca newCobranca = await _cobrancaService.CreateCobranca(cobranca);
 
-                Area newArea = await _areaService.UpdateArea(area);
-
-                return Ok(newArea);
+                return Ok(newCobranca);
             }
             catch (ArgumentException e)
             {
@@ -104,12 +93,12 @@ namespace RecDesp.Controllers
 
         [HttpDelete]
         [Route("delete-by-id")]
-        public async Task<IActionResult> DeleteArea([FromQuery] long id)
+        public async Task<IActionResult> DeleteCobranca([FromQuery] long id)
         {
             try
             {
-                bool area = await _areaService.DeleteArea(id);
-                if (area)
+                bool cobranca = await _cobrancaService.DeleteCobranca(id);
+                if (cobranca)
                     return NoContent();
 
                 return NotFound();
@@ -125,12 +114,17 @@ namespace RecDesp.Controllers
         }
 
         [HttpPost]
-        [Route("add-user")]
-        public async Task<IActionResult> AddUser([FromQuery] long areaId, [FromQuery] string userName)
+        [Route("cobranca-response")]
+        public async Task<IActionResult> CobrancaResponse([FromQuery] long cobrancaId, [FromQuery] int status)
         {
             try
             {
-                return Ok(await _areaService.AddUser(areaId, userName));
+                Cobranca newCobranca = await _cobrancaService.CobrancaResponse(cobrancaId, status);
+
+                if (newCobranca != null)
+                    return Ok(newCobranca);
+                else
+                    return NotFound();
             }
             catch (ArgumentException e)
             {

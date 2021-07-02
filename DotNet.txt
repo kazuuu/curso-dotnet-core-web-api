@@ -1,0 +1,90 @@
+1) Instalacao do Ambiente:
+	a.	Instalar Visual Studio
+	b.	Instalar o dotnet core 5
+	c.	Instalar MySQL
+	d.	Instalar o WorkBench
+	e.	Instalar o Postman
+2) No Visual Studio criar um projeto Asp.Net Core Web Application com o template: Asp.Net Core Web API chamado DotnetRestApi 
+	a.	DotNetCoreWebAPI
+3) Testar com o Postman
+	a.	Criar uma Collection e a Requisicao
+4)	Criar um modelo Area no diretório models
+5)	Fonte: https://www.youtube.com/watch?v=L1bJUKZV0b0
+6)	Agora vamos configurar o EntityFramework com MySQL para persistir os dados
+	a.	Instalar no Nugget:
+		i.	Microsoft.EntityFrameworkCore
+		ii.	Microsoft.EntityFrameworkCore.Tools
+		iii.	Microsoft.EntityFrameworkCore.Design
+		iv.	Pomelo.EntityFrameworkCore.MySql
+		v.	Microsoft.EntityFrameworkCore.SqlServer
+7)	Criar um Contexto MySQLContext e colocar num diretório Infra.
+8)	Configurar no Startup.cs o Contexto com Entity.
+9)	Colocar a String de Conexao no appsettings.json.
+10)	Abrir o Package Manager Console para criar o Migration Inicial: 
+	a. Add-Migration Initial
+	b. Update-Database 
+11)	Adicionar o AreaController.
+12)	Testar com o Postman.
+13) Reorganizar o projeto criando, na raiz do projeto, as seguintes pastas:
+	a. "Api"
+		i. Mova a pasta "Controllers" para dentro de Api.
+	b. "Data"
+		i. Dentro da pasta Data, crie uma outra pasta com o nome de: "MySQL";
+		ii. Mova a pasta Infra para dentro de MySQL.
+	c. "Domain"
+		i. Mova a pasta Models para dentro de Domain;
+		ii. Dentro da Models crie a uma classe "BaseModel.cs" e faça o nosso modelo Area herdar dela.
+14)	Desenvolvendo os repositórios.
+	a. Dentro de Data crie uma pasta chamada "Repositories";
+	b. Em Repositories crie uma interface com o nome de "IGenericRepository.cs";
+	c. Também dentro de Repositories adicione uma nova pasta "Implementations";
+	d. Crie uma classe chamada "GenericRepository", em Implementations, que implementa IGenericRepository;
+15) Adicionando o repositório da área.
+	a. Dentro de Repositories crie uma nova interface chamada "IAreaRepository.cs" que herda de IGenericRepository;
+	b. Dentro de Implementations crie uma classe com o nome de "AreaRepository.cs" que herda de GenericRepository e implementa IAreaRepository.
+16) Desenvolvendo as Services.
+	a. Dentro de Domain crie uma nova pasta "Services";
+	b. Dentro da Services siga as mesmas instruções do passo 15, mas ao invés de ser "Repository" será "Service".
+		i. Não desenvolver uma service genérica.
+17) Configurar na Startup.cs os repositórios e as services.
+18) Ajustar a controller para acessar os métodos da AreaService e não do contexto como anteriormente.
+19) Testar com o Postman.
+20) Agora vamos adicionar o modelo de usuário, onde cada um irá possuir uma ou mais áreas.
+	a. No nugget, instale as seguintes bibliotecas:
+		i. Microsoft.AspNetCore.Authentication;
+		ii. Microsoft.AspNetCore.Authentication.JwtBearer;
+		iii. Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+		iv. Microsoft.AspNetCore.Identity.UI
+	b. Crie um modelo com o nome de "ApplicationUser.cs" e faça com que ele herde de IdentityUser
+		i. Adicione o atributo "Áreas", do tipo ICollection, que são as áreas daquele usuário (Relacionamento entre entidades).
+		ii. Faça o mesmo no modelo Área para os usuários.
+	c. Crie um modelo com o nome de "ApplicationRole.cs" e faça com que ele herde de IdentityRole
+	d. Altere o contexto onde ele irá herdar de IdentityDbContext e não de DbContext
+	e. Incluir ApplicationUser e ApplicationRole na classe MySQLContext
+21) Configurando o User com o Identity
+	a. Dentro da Domain insira uma nova pasta chamada "DTOs" e crie as 3 classes a seguir:
+		i. "LoginDto.cs"
+		ii. "RegisterDto.cs"
+		iii. "SsoDto.cs"		
+	b. Faça os passos do 15 até o 17 novamente, trocando o nome de Área para User.
+	c. Configure o Identity na Startup.cs
+22) Adicione a AuthController.
+23)	Abrir o Package Manager Console para criar o Migration User-Relacionamento: 
+	a. Add-Migration User-Relacionamento
+	b. Update-Database 
+		Obs: Caso gere um erro referente ao tamanho dos campos das tabelas do Identity, 
+			vá na migration User-Relacionamento e altere o tamanho de cada campo de 255 ou 256 para 80 e tente novamente.
+24) Implementando o JWT
+	a. Adicione o JWT na appsettings.json;
+	b. Na raiz do projeto, crie uma pasta chamada "Core" e dentro dela adicione outra pasta chamada "Security"
+	c. Dentro da pasta Security implemente as seguintes classes:
+		i. "CustomClaimTypes.cs"
+		ii. "JwtSecurityKey.cs"
+		iii. "TokenJWT.cs"
+		iv. "TokenJWTBuilder"
+	d. Configure os seguintes itens na Startup.cs
+		i. Authentication
+		ii. JwtBearer
+		iii. Adicione o "app.UseAuthentication();" ANTES do "app.UseAuthorization();"
+25) Adicione o Authorized na ÁreaController
+25) Testar com o Postman.

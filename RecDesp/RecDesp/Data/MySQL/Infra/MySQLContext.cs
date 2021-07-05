@@ -13,9 +13,11 @@ namespace RecDesp.Infra
 
         public DbSet<ApplicationUser> User { get; set; }
         public DbSet<ApplicationRole> Role { get; set; }
+        public DbSet<Transacao> Transacoes { get; set; }
         public DbSet<Area> Areas { get; set; }
         public DbSet<Cobranca> Cobrancas { get; set; }
         public DbSet<InstituicaoFinanceira> InstituicoesFinanceiras { get; set; }
+        public DbSet<Credito> Creditos { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

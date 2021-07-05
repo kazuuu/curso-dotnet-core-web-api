@@ -88,19 +88,37 @@
 25) Adicione o Authorize na ÁreaController
 26) Adicionar um método na Service responsável por adicionar um usuário a uma área e implementa-lo na Controller
 27) Testar com o Postman.
-28) Crie um modelo com o nome de "Cobranca.cs" e inclua-o na MySQLContext
-	a. Faça os passos do 15 até o 17 novamente, trocando o nome de Área para Cobranca.
-	b. Adicione a "CobrancaController" e adicionar o Authorize nela.
-29) Abrir o Package Manager Console para criar o Migration Cobranca: 
+28) Crie um modelo com o nome de "Transacao.cs" e inclua-o no MySQLContext 
+29) Abrir o Package Manager Console para criar o Migration Transacao: 
+	a. Add-Migration Transacao
+	b. Update-Database
+30) Implementando os métodos para fazer a request e obter a response
+	a. Faça os passos do 15 até o 17 novamente, trocando o nome de Área para Transacao.
+	b. Adicione a "TransacaoController" com o Authorize nela.
+31) Testar com o Postman 
+32) Crie um modelo com o nome de "Cobranca.cs" e inclua-o no MySQLContext
+33) Abrir o Package Manager Console para criar o Migration Cobranca: 
 	a. Add-Migration Cobranca
 	b. Update-Database
-30) Adicionar um método na Service responsável por alterar o status da cobrança e implementa-lo na Controller
-31) Testar com o Postman 
-32) Crie um modelo com o nome de "InstituicaoFinanceira.cs" e inclua-o na MySQLContext
+34) Implementando os métodos para fazer a request e obter a response
+	a. Faça os passos do 15 até o 17 novamente, trocando o nome de Área para Cobranca.
+	b. Adicione a "CobrancaController" e adicionar o Authorize nela.
+35) Adicionar um método na Service responsável por alterar o status da cobrança e implementa-lo na Controller
+36) Testar com o Postman 
+37) Crie um modelo com o nome de "InstituicaoFinanceira.cs" e inclua-o na MySQLContext
+38) Abrir o Package Manager Console para criar o Migration InstituicaoFinanceira: 
+	a. Add-Migration InstituicaoFinanceira
+	b. Update-Database
+39) Implementando os métodos para fazer a request e obter a response
 	a. Faça os passos do 15 até o 17 novamente, trocando o nome de Área para IF.
 		i. Implemente somente os métodos de busca
 	b. Adicione a "IFController" com o Authorize nela.
-33) Abrir o Package Manager Console para criar o Migration InstituicaoFinanceira: 
-	a. Add-Migration InstituicaoFinanceira
+40) Testar com o Postman
+41) Crie um modelo com o nome de "Credito.cs" e inclua-o na MySQLContext
+42) Abrir o Package Manager Console para criar o Migration Credito: 
+	a. Add-Migration Credito
 	b. Update-Database
-34) Testar com o Postman
+43) Implementando os métodos para fazer a request e obter a response
+	a. Faça os passos do 15 até o 17 novamente, trocando o nome de Área para Credito.
+	b. Adicione a "CreditoController" com o Authorize nela.
+44) Testar com o Postman

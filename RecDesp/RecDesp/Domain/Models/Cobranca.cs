@@ -12,6 +12,9 @@ namespace RecDesp.Domain.Models
         public int Status { get; set; }
         public string Descricao { get; set; }
         public Area FromArea { get; set; }
+        public long FromAreaId { get; set; }
         public Area ToArea { get; set; }
+        public long ToAreaId { get; set; }
+
     }
 }

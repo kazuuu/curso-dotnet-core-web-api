@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RecDesp.Infra;
 
 namespace RecDesp.Migrations
 {
     [DbContext(typeof(MySQLContext))]
-    partial class MySQLContextModelSnapshot : ModelSnapshot
+    [Migration("20210705131208_Transacao")]
+    partial class Transacao
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -243,13 +245,13 @@ namespace RecDesp.Migrations
                     b.Property<string>("Descricao")
                         .HasColumnType("longtext");
 
-                    b.Property<long>("FromAreaId")
+                    b.Property<long?>("FromAreaId")
                         .HasColumnType("bigint");
 
                     b.Property<int>("Status")
                         .HasColumnType("int");
 
-                    b.Property<long>("ToAreaId")
+                    b.Property<long?>("ToAreaId")
                         .HasColumnType("bigint");
 
                     b.Property<double>("Valor")
@@ -262,38 +264,6 @@ namespace RecDesp.Migrations
                     b.HasIndex("ToAreaId");
 
                     b.ToTable("Cobrancas");
-                });
-
-            modelBuilder.Entity("RecDesp.Domain.Models.Credito", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasColumnName("id");
-
-                    b.Property<long>("AreaId")
-                        .HasColumnType("bigint");
-
-                    b.Property<DateTime>("Data")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<string>("Descricao")
-                        .HasColumnType("longtext");
-
-                    b.Property<int>("ExternalId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ExternalName")
-                        .HasColumnType("longtext");
-
-                    b.Property<double>("Valor")
-                        .HasColumnType("double");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AreaId");
-
-                    b.ToTable("Creditos");
                 });
 
             modelBuilder.Entity("RecDesp.Domain.Models.InstituicaoFinanceira", b =>
@@ -458,30 +428,15 @@ namespace RecDesp.Migrations
                 {
                     b.HasOne("RecDesp.Models.Area", "FromArea")
                         .WithMany()
-                        .HasForeignKey("FromAreaId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("FromAreaId");
 
                     b.HasOne("RecDesp.Models.Area", "ToArea")
                         .WithMany()
-                        .HasForeignKey("ToAreaId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ToAreaId");
 
                     b.Navigation("FromArea");
 
                     b.Navigation("ToArea");
-                });
-
-            modelBuilder.Entity("RecDesp.Domain.Models.Credito", b =>
-                {
-                    b.HasOne("RecDesp.Models.Area", "Area")
-                        .WithMany()
-                        .HasForeignKey("AreaId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Area");
                 });
 #pragma warning restore 612, 618
         }

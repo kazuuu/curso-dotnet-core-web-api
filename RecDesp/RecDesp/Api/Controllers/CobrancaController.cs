@@ -73,13 +73,18 @@ namespace RecDesp.Api.Controllers
                 Area fromNewArea = await _areaService.GetAreaById(fromArea);
                 Area toNewArea = await _areaService.GetAreaById(toArea);
 
-                cobranca.FromArea = fromNewArea;
-                cobranca.ToArea = toNewArea;
-                cobranca.Data = DateTime.Now; // salva a data de quando foi feita a cobrança
+                if (fromNewArea != null && toNewArea != null)
+                {
+                    cobranca.FromAreaId = fromNewArea.Id;
+                    cobranca.ToAreaId = toNewArea.Id;
+                    cobranca.Data = DateTime.Now; // salva a data de quando foi feita a cobrança
 
-                Cobranca newCobranca = await _cobrancaService.CreateCobranca(cobranca);
+                    Cobranca newCobranca = await _cobrancaService.CreateCobranca(cobranca);
 
-                return Ok(newCobranca);
+                    return Ok(newCobranca);
+                }
+                else
+                    return NotFound();
             }
             catch (ArgumentException e)
             {

@@ -1,5 +1,6 @@
 ﻿using RecDesp.Data.Repositories;
 using RecDesp.Domain.Models;
+using RecDesp.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -8,10 +9,12 @@ namespace RecDesp.Domain.Services.Implementations
     public class CobrancaService : ICobrancaService
     {
         private readonly ICobrancaRepository _cobrancaRepository;
+        private readonly IAreaRepository _areaRepository;
 
-        public CobrancaService(ICobrancaRepository cobrancaRepository)
+        public CobrancaService(ICobrancaRepository cobrancaRepository, IAreaRepository areaRepository)
         {
             _cobrancaRepository = cobrancaRepository;
+            _areaRepository = areaRepository;
         }
 
         public async Task<List<Cobranca>> ListCobrancas()
@@ -53,8 +56,24 @@ namespace RecDesp.Domain.Services.Implementations
             {
                 newCobranca.Status = status;
                 newCobranca = await _cobrancaRepository.UpdateAsync(newCobranca);
+                if (status == 2)
+                    atualizaSaldo(newCobranca);
+
                 return newCobranca;
             }
+        }
+
+        
+        private async void atualizaSaldo(Cobranca newCobranca)
+        {
+            Area fromArea = _areaRepository.Get(newCobranca.FromAreaId);
+            Area toArea = _areaRepository.Get(newCobranca.ToAreaId);
+
+            fromArea.Saldo += newCobranca.Valor;
+            toArea.Saldo -= newCobranca.Valor;
+
+            await _areaRepository.UpdateAsync(fromArea);
+            await _areaRepository.UpdateAsync(toArea);
         }
     }
 }

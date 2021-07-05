@@ -49,31 +49,46 @@ namespace RecDesp.Domain.Services.Implementations
         public async Task<Cobranca> CobrancaResponse(long cobrancaId, int status)
         {
             Cobranca newCobranca = await _cobrancaRepository.GetAsync(cobrancaId);
-
-            if ((status < 1 || status > 3) || newCobranca == null)
+            bool valida = false;
+            
+            if (status == 2)
+            {
+                // verifica se o saldo é valido e atualiza o saldo de cada área
+                valida = await atualizaSaldo(newCobranca);
+            }
+                
+            if (status < 1 || status > 3 || newCobranca == null || !valida)
                 return null;
             else
             {
                 newCobranca.Status = status;
                 newCobranca = await _cobrancaRepository.UpdateAsync(newCobranca);
-                if (status == 2)
-                    atualizaSaldo(newCobranca);
 
                 return newCobranca;
             }
         }
 
         
-        private async void atualizaSaldo(Cobranca newCobranca)
+        private async Task<bool> atualizaSaldo(Cobranca newCobranca)
         {
             Area fromArea = _areaRepository.Get(newCobranca.FromAreaId);
             Area toArea = _areaRepository.Get(newCobranca.ToAreaId);
 
-            fromArea.Saldo += newCobranca.Valor;
-            toArea.Saldo -= newCobranca.Valor;
+            if (toArea.Saldo <= 0 || toArea.Saldo < newCobranca.Valor)
+            {
+                newCobranca.Status = 3;
+                return false;
+            }
+            else
+            {
+                fromArea.Saldo += newCobranca.Valor;
+                toArea.Saldo -= newCobranca.Valor;
 
-            await _areaRepository.UpdateAsync(fromArea);
-            await _areaRepository.UpdateAsync(toArea);
+                await _areaRepository.UpdateAsync(fromArea);
+                await _areaRepository.UpdateAsync(toArea);
+
+                return true;
+            }           
         }
     }
 }

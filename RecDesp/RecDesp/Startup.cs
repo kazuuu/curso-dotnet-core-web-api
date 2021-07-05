@@ -86,6 +86,7 @@ namespace RecDesp
             services.AddScoped<IInstituicaoFinanceiraService, InstituicaoFinanceiraService>();
             services.AddScoped<ITransacaoService, TransacaoService>();
             services.AddScoped<ICreditoService, CreditoService>();
+            services.AddScoped<ITransferenciaService, TransferenciaService>();
             services.AddScoped(typeof(IGenericRepository<,>), typeof(GenericRepository<,>));
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IAreaRepository, AreaRepository>();
@@ -93,6 +94,7 @@ namespace RecDesp
             services.AddScoped<IInstituicaoFinanceiraRepository, InstituicaoFinanceiraRepository>();
             services.AddScoped<ITransacaoRepository, TransacaoRepository>();
             services.AddScoped<ICreditoRepository, CreditoRepository>();
+            services.AddScoped<ITransferenciaRepository, TransferenciaRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

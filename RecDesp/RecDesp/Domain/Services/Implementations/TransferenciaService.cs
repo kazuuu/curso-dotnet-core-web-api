@@ -12,11 +12,13 @@ namespace RecDesp.Domain.Services.Implementations
     {
         private readonly ITransferenciaRepository _transferenciaRepository;
         private readonly IAreaRepository _areaRepository;
+        private readonly ITransacaoRepository _transacaoRepository;
 
-        public TransferenciaService(ITransferenciaRepository transferenciaRepository, IAreaRepository areaRepository)
+        public TransferenciaService(ITransferenciaRepository transferenciaRepository, IAreaRepository areaRepository, ITransacaoRepository transacaoRepository)
         {
             _transferenciaRepository = transferenciaRepository;
             _areaRepository = areaRepository;
+            _transacaoRepository = transacaoRepository;
         }
 
         public async Task<List<Transferencia>> ListTransferencias()
@@ -40,6 +42,7 @@ namespace RecDesp.Domain.Services.Implementations
             {
                 transferencia.Data = DateTime.Now;
                 Transferencia newTransferencia = await _transferenciaRepository.CreateAsync(transferencia);
+                await NewTransacao(newTransferencia);
 
                 return newTransferencia;
             }    
@@ -58,6 +61,24 @@ namespace RecDesp.Domain.Services.Implementations
                 return false;
         }
 
+        private async Task NewTransacao(Transferencia newTransferencia)
+        {
+            Area fromArea = await _areaRepository.GetAsync(newTransferencia.FromAreaId);
+
+            Transacao transacao = new Transacao
+            {
+                Data = DateTime.Now,
+                AreaId = newTransferencia.ToAreaId,
+                Area = newTransferencia.ToArea,
+                Contraparte = fromArea.NomeArea,
+                Valor = newTransferencia.Valor,
+                Descricao = newTransferencia.Descricao,
+                OrigemTipo = 3
+            };
+
+            await _transacaoRepository.CreateAsync(transacao);
+        }
+
         private async Task<bool> AtualizaSaldo(Transferencia newTransferencia, string opFromArea, string opToArea)
         {
             Area fromArea = _areaRepository.Get(newTransferencia.FromAreaId);
@@ -66,8 +87,8 @@ namespace RecDesp.Domain.Services.Implementations
             if (fromArea.Saldo <= 0 || fromArea.Saldo < newTransferencia.Valor) return false;
             else
             {
-                fromArea.Saldo -= CalculaSaldo(newTransferencia.Valor, fromArea.Saldo, opFromArea);
-                toArea.Saldo += CalculaSaldo(newTransferencia.Valor, toArea.Saldo, opToArea);
+                fromArea.Saldo = CalculaSaldo(newTransferencia.Valor, fromArea.Saldo, opFromArea);
+                toArea.Saldo = CalculaSaldo(newTransferencia.Valor, toArea.Saldo, opToArea);
 
                 await _areaRepository.UpdateAsync(fromArea);
                 await _areaRepository.UpdateAsync(toArea);

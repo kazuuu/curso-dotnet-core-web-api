@@ -12,11 +12,13 @@ namespace RecDesp.Domain.Services.Implementations
     {
         private readonly IDebitoRepository _debitoRepository;
         private readonly IAreaRepository _areaRepository;
+        private readonly ITransacaoRepository _transacaoRepository;
 
-        public DebitoService(IDebitoRepository debitoRepository, IAreaRepository areaRepository)
+        public DebitoService(IDebitoRepository debitoRepository, IAreaRepository areaRepository, ITransacaoRepository transacaoRepository)
         {
             _debitoRepository = debitoRepository;
             _areaRepository = areaRepository;
+            _transacaoRepository = transacaoRepository;
         }
 
         public async Task<List<Debito>> ListDebitos()
@@ -45,6 +47,7 @@ namespace RecDesp.Domain.Services.Implementations
                 debito.Data = DateTime.Now;
 
                 Debito newDebito = await _debitoRepository.CreateAsync(debito);
+                await NewTransacao(newDebito);
 
                 return newDebito;
             }
@@ -61,6 +64,22 @@ namespace RecDesp.Domain.Services.Implementations
                 return await AtualizaSaldo(debito, "soma");
             else
                 return false;
+        }
+
+        private async Task NewTransacao(Debito newDebito)
+        {
+            Transacao transacao = new Transacao
+            {
+                Data = DateTime.Now,
+                AreaId = newDebito.AreaId,
+                Area = newDebito.Area,
+                Contraparte = newDebito.ExternalName,
+                Valor = newDebito.Valor,
+                Descricao = newDebito.Descricao,
+                OrigemTipo = 2
+            };
+
+            await _transacaoRepository.CreateAsync(transacao);
         }
 
         private async Task<bool> AtualizaSaldo(Debito newDebito, string opArea)

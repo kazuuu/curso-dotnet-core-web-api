@@ -12,11 +12,13 @@ namespace RecDesp.Domain.Services.Implementations
     {
         private readonly ICreditoRepository _creditoRepository;
         private readonly IAreaRepository _areaRepository;
+        private readonly ITransacaoRepository _transacaoRepository;
 
-        public CreditoService(ICreditoRepository creditoRepository, IAreaRepository areaRepository)
+        public CreditoService(ICreditoRepository creditoRepository, IAreaRepository areaRepository, ITransacaoRepository transacaoRepository)
         {
             _creditoRepository = creditoRepository;
             _areaRepository = areaRepository;
+            _transacaoRepository = transacaoRepository;
         }
 
         public async Task<List<Credito>> ListCreditos()
@@ -40,7 +42,8 @@ namespace RecDesp.Domain.Services.Implementations
             credito.Data = DateTime.Now;
 
             Credito newCredito = await _creditoRepository.CreateAsync(credito);
-            AtualizaSaldo(newCredito, "soma");
+            await NewTransacao(newCredito);
+            await AtualizaSaldo(newCredito, "soma");
 
             return newCredito;
         }
@@ -52,14 +55,30 @@ namespace RecDesp.Domain.Services.Implementations
 
             if (newCredito)
             {
-                AtualizaSaldo(credito, "sub");
+                await AtualizaSaldo(credito, "sub");
                 return true;
             }       
             else
                 return false;
         }
 
-        private async void AtualizaSaldo(Credito newCredito, string opArea)
+        private async Task NewTransacao(Credito newCredito)
+        {
+            Transacao transacao = new Transacao
+            {
+                Data = DateTime.Now,
+                AreaId = newCredito.AreaId,
+                Area = newCredito.Area,
+                Contraparte = newCredito.ExternalName,
+                Valor = newCredito.Valor,
+                Descricao = newCredito.Descricao,
+                OrigemTipo = 1
+            };
+
+            await _transacaoRepository.CreateAsync(transacao);
+        }
+
+        private async Task AtualizaSaldo(Credito newCredito, string opArea)
         {
             Area area = _areaRepository.Get(newCredito.AreaId);
 

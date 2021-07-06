@@ -1,6 +1,7 @@
 ﻿using RecDesp.Data.Repositories;
 using RecDesp.Domain.Models;
 using RecDesp.Models;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -10,16 +11,27 @@ namespace RecDesp.Domain.Services.Implementations
     {
         private readonly ICobrancaRepository _cobrancaRepository;
         private readonly IAreaRepository _areaRepository;
+        private readonly ITransacaoRepository _transacaoRepository;
 
-        public CobrancaService(ICobrancaRepository cobrancaRepository, IAreaRepository areaRepository)
+        public CobrancaService(ICobrancaRepository cobrancaRepository, IAreaRepository areaRepository, ITransacaoRepository transacaoRepository)
         {
             _cobrancaRepository = cobrancaRepository;
             _areaRepository = areaRepository;
+            _transacaoRepository = transacaoRepository;
         }
 
         public async Task<List<Cobranca>> ListCobrancas()
         {
             List<Cobranca> listCobrancas = await _cobrancaRepository.FindAll();
+
+            /* Tentei fazer com que a área não retorne como null
+            for (int i = 0; i < listCobrancas.Count; i++)
+            {
+                listCobrancas[i].FromArea = _areaRepository.Get(listCobrancas[i].FromAreaId);
+                listCobrancas[i].ToArea = _areaRepository.Get(listCobrancas[i].ToAreaId);
+            }
+            */
+
             return listCobrancas;
         }
 
@@ -54,11 +66,14 @@ namespace RecDesp.Domain.Services.Implementations
             
             if (status == 2)
             {
+                // Se a cobrança for aprovada irá gerar uma nova transação
+                await NewTransacao(newCobranca);
+
                 // verifica se o saldo é valido e atualiza o saldo de cada área
-                valida = await AtualizaSaldo(newCobranca, "soma", "sub");
+                valida = await AtualizaSaldo(newCobranca, "soma", "sub");                
             }
                 
-            if (status < 1 || status > 3 || newCobranca == null || !valida)
+            if (status < 1 || status > 3 || newCobranca == null || valida == false)
                 return null;
             else
             {
@@ -69,7 +84,24 @@ namespace RecDesp.Domain.Services.Implementations
             }
         }
 
-        
+        private async Task NewTransacao(Cobranca newCobranca)
+        {
+            Area toArea = await _areaRepository.GetAsync(newCobranca.ToAreaId);
+
+            Transacao transacao = new Transacao
+            {
+                Data = DateTime.Now,
+                AreaId = newCobranca.FromAreaId,
+                Area = newCobranca.FromArea,
+                Contraparte = toArea.NomeArea,
+                Valor = newCobranca.Valor,
+                Descricao = newCobranca.Descricao,
+                OrigemTipo = 4
+            };
+
+            await _transacaoRepository.CreateAsync(transacao);
+        }
+
         private async Task<bool> AtualizaSaldo(Cobranca newCobranca, string opFromArea, string opToArea)
         {
             Area fromArea = _areaRepository.Get(newCobranca.FromAreaId);

@@ -66,17 +66,18 @@ namespace RecDesp.Api.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> PostTransacao([FromBody] Transacao transacao)
+        public async Task<IActionResult> PostTransacao([FromQuery] long areaId, [FromBody] Transacao transacao)
         {
             try
             {
                 // verificando se a área existe
-                Area area = await _areaService.GetAreaById(transacao.AreaId);
+                Area area = await _areaService.GetAreaById(areaId);
 
                 if (area != null)
                 {
                     transacao.Data = DateTime.Now; // salva a data de quando foi feita a transação
-
+                    transacao.AreaId = areaId;
+                    transacao.Area = area;
                     Transacao newTransacao = await _transacaoService.CreateTransacao(transacao);
 
                     return Ok(newTransacao);

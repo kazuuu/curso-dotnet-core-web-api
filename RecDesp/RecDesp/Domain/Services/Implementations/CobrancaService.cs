@@ -38,10 +38,11 @@ namespace RecDesp.Domain.Services.Implementations
 
         public async Task<bool> DeleteCobranca(long cobrancaId)
         {
+            Cobranca cobranca = await _cobrancaRepository.GetAsync(cobrancaId);
             bool newCobranca = await _cobrancaRepository.DeleteAsync(cobrancaId);
 
             if (newCobranca)
-                return true;
+                return await AtualizaSaldo(cobranca, "sub", "soma"); 
             else
                 return false;
         }
@@ -54,7 +55,7 @@ namespace RecDesp.Domain.Services.Implementations
             if (status == 2)
             {
                 // verifica se o saldo é valido e atualiza o saldo de cada área
-                valida = await atualizaSaldo(newCobranca);
+                valida = await AtualizaSaldo(newCobranca, "soma", "sub");
             }
                 
             if (status < 1 || status > 3 || newCobranca == null || !valida)
@@ -69,7 +70,7 @@ namespace RecDesp.Domain.Services.Implementations
         }
 
         
-        private async Task<bool> atualizaSaldo(Cobranca newCobranca)
+        private async Task<bool> AtualizaSaldo(Cobranca newCobranca, string opFromArea, string opToArea)
         {
             Area fromArea = _areaRepository.Get(newCobranca.FromAreaId);
             Area toArea = _areaRepository.Get(newCobranca.ToAreaId);
@@ -81,14 +82,22 @@ namespace RecDesp.Domain.Services.Implementations
             }
             else
             {
-                fromArea.Saldo += newCobranca.Valor;
-                toArea.Saldo -= newCobranca.Valor;
+                fromArea.Saldo = CalculaSaldo(newCobranca.Valor, fromArea.Saldo, opFromArea);
+                toArea.Saldo = CalculaSaldo(newCobranca.Valor, toArea.Saldo, opToArea);
 
                 await _areaRepository.UpdateAsync(fromArea);
                 await _areaRepository.UpdateAsync(toArea);
 
                 return true;
             }           
+        }
+
+        private static double CalculaSaldo(double valor, double saldo, string operacao)
+        {
+            if (operacao == "soma")
+                return saldo += valor;
+            else
+                return saldo -= valor;
         }
     }
 }

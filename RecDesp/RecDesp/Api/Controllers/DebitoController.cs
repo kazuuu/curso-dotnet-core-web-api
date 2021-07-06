@@ -6,6 +6,7 @@ using RecDesp.Domain.Services;
 using RecDesp.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace RecDesp.Api.Controllers
@@ -13,26 +14,28 @@ namespace RecDesp.Api.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [Authorize]
-    public class CreditoController : ControllerBase
+    public class DebitoController : ControllerBase
     {
-        private readonly ICreditoService _creditoService;
+        private readonly IDebitoService _debitoService;
         private readonly IAreaService _areaService;
+        private readonly IInstituicaoFinanceiraService _instituicaoService;
 
-        public CreditoController(ICreditoService creditoService, IAreaService areaService)
+        public DebitoController(IDebitoService debitoService, IAreaService areaService, IInstituicaoFinanceiraService instituicaoService)
         {
-            _creditoService = creditoService;
+            _debitoService = debitoService;
             _areaService = areaService;
+            _instituicaoService = instituicaoService;
         }
 
         [HttpGet]
-        [Route("list-creditos")]
-        public async Task<IActionResult> ListCreditos()
+        [Route("list-debitos")]
+        public async Task<IActionResult> ListDebitos()
         {
             try
             {
-                List<Credito> creditos = await _creditoService.ListCreditos();
+                List<Debito> debitos = await _debitoService.ListDebitos();
 
-                return Ok(creditos);
+                return Ok(debitos);
             }
             catch (ArgumentException e)
             {
@@ -46,13 +49,13 @@ namespace RecDesp.Api.Controllers
 
         [HttpGet]
         [Route("get-by-id")]
-        public async Task<IActionResult> GetCredito([FromQuery] long id)
+        public async Task<IActionResult> GetDebitos([FromQuery] long id)
         {
             try
             {
-                Credito newCredito = await _creditoService.GetCreditoById(id);
+                Debito newDebito = await _debitoService.GetDebitoById(id);
 
-                return Ok(newCredito);
+                return Ok(newDebito);
             }
             catch (ArgumentException e)
             {
@@ -65,19 +68,22 @@ namespace RecDesp.Api.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> PostCredito([FromQuery] long areaId, [FromBody] Credito credito)
+        public async Task<IActionResult> PostDebito([FromQuery] long areaId, [FromQuery] int instituicaoId, [FromBody] Debito debito)
         {
             try
             {
                 Area area = await _areaService.GetAreaById(areaId);
+                InstituicaoFinanceira instituicao = await _instituicaoService.GetInstituicaoById(instituicaoId);
 
-                if (area != null)
+                if (area != null && instituicao != null)
                 {
-                    credito.AreaId = area.Id;
-                    credito.Area = area;
-                    Credito newCredito = await _creditoService.CreateCredito(credito);
+                    debito.AreaId = area.Id;
+                    debito.Area = area;
+                    debito.InstituicaoId = instituicao.Id;
+                    debito.Instituicao = instituicao;
+                    Debito newDebito = await _debitoService.CreateDebito(debito);
 
-                    return Ok(newCredito);
+                    return Ok(newDebito);
                 }
                 else
                     return NotFound();
@@ -94,12 +100,12 @@ namespace RecDesp.Api.Controllers
 
         [HttpDelete]
         [Route("delete-by-id")]
-        public async Task<IActionResult> DeleteCredito([FromQuery] long id)
+        public async Task<IActionResult> DeleteDebito([FromQuery] long id)
         {
             try
             {
-                bool credito = await _creditoService.DeleteCredito(id);
-                if (credito)
+                bool debito = await _debitoService.DeleteDebito(id);
+                if (debito)
                     return NoContent();
 
                 return NotFound();

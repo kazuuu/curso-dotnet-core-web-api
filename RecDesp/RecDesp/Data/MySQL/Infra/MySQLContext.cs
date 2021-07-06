@@ -19,6 +19,7 @@ namespace RecDesp.Infra
         public DbSet<InstituicaoFinanceira> InstituicoesFinanceiras { get; set; }
         public DbSet<Credito> Creditos { get; set; }
         public DbSet<Transferencia> Transferencias { get; set; }
+        public DbSet<Debito> Debitos { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

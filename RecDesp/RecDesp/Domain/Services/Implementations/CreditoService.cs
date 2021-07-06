@@ -37,29 +37,43 @@ namespace RecDesp.Domain.Services.Implementations
             Random randNum = new Random();
             credito.ExternalId = randNum.Next(1000);
 
+            credito.Data = DateTime.Now;
+
             Credito newCredito = await _creditoRepository.CreateAsync(credito);
-            atualizaSaldo(newCredito);
+            AtualizaSaldo(newCredito, "soma");
 
             return newCredito;
         }
 
         public async Task<bool> DeleteCredito(long creditoId)
         {
+            Credito credito = await _creditoRepository.GetAsync(creditoId);
             bool newCredito = await _creditoRepository.DeleteAsync(creditoId);
 
             if (newCredito)
+            {
+                AtualizaSaldo(credito, "sub");
                 return true;
+            }       
             else
                 return false;
         }
 
-        private async void atualizaSaldo(Credito newCredito)
+        private async void AtualizaSaldo(Credito newCredito, string opArea)
         {
             Area area = _areaRepository.Get(newCredito.AreaId);
 
-            area.Saldo += newCredito.Valor;
+            area.Saldo = CalculaSaldo(newCredito.Valor, area.Saldo, opArea);
 
             await _areaRepository.UpdateAsync(area);
+        }
+
+        private static double CalculaSaldo(double valor, double saldo, string operacao)
+        {
+            if (operacao == "soma")
+                return saldo += valor;
+            else
+                return saldo -= valor;
         }
     }
 }

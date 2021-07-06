@@ -24,7 +24,7 @@
 	b. Update-Database 
 11)	Adicionar o AreaController.
 12)	Testar com o Postman.
-13) Reorganizar o projeto criando, na raiz do projeto, as seguintes pastas:
+13) Reorganizar o projeto criando, na raiz, as seguintes pastas:
 	a. "Api"
 		i. Mova a pasta "Controllers" para dentro de Api.
 	b. "Data"
@@ -32,7 +32,7 @@
 		ii. Mova a pasta Infra para dentro de MySQL.
 	c. "Domain"
 		i. Mova a pasta Models para dentro de Domain;
-		ii. Dentro da Models crie a uma classe "BaseModel.cs" e faça o nosso modelo Area herdar dela.
+		ii. Dentro da Models crie uma classe "BaseModel.cs" e faça o nosso modelo Area herdar dela.
 14)	Desenvolvendo os repositórios.
 	a. Dentro de Data crie uma pasta chamada "Repositories";
 	b. Em Repositories crie uma interface com o nome de "IGenericRepository.cs";
@@ -122,3 +122,11 @@
 	a. Faça os passos do 15 até o 17 novamente, trocando o nome de Área para Credito.
 	b. Adicione a "CreditoController" com o Authorize nela.
 44) Testar com o Postman
+45) Crie um modelo com o nome de "Debito.cs" e inclua-o na MySQLContext
+46) Abrir o Package Manager Console para criar o Migration Debito: 
+	a. Add-Migration Debito
+	b. Update-Database
+47) Implementando os métodos para fazer a request e obter a response
+	a. Faça os passos do 15 até o 17 novamente, trocando o nome de Área para Debito.
+	b. Adicione a "DebitoController" com o Authorize nela.
+48) Testar com o Postman

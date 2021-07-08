@@ -42,6 +42,26 @@ namespace RecDesp.Controllers
         }
 
         [HttpGet]
+        [Route("list-by-saldo")]
+        public async Task<IActionResult> ListAreasBySaldo([FromQuery] double min, [FromQuery] double max)
+        {
+            try
+            {
+                List<Area> areas = await _areaService.ListAreasBySaldo(min, max);
+
+                return Ok(areas);
+            }
+            catch (ArgumentException e)
+            {
+                return BadRequest(e.Message);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
+            }
+        }
+
+        [HttpGet]
         [Route("get-by-id")]
         public async Task<IActionResult> GetArea([FromQuery] long id)
         {

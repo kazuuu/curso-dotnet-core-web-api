@@ -1,6 +1,8 @@
-﻿using RecDesp.Data.Repositories;
+﻿using Microsoft.EntityFrameworkCore;
+using RecDesp.Data.Repositories;
 using RecDesp.Domain.Models;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace RecDesp.Domain.Services.Implementations
@@ -19,6 +21,13 @@ namespace RecDesp.Domain.Services.Implementations
         public async Task<List<Transacao>> ListTransacao()
         {
             List<Transacao> listTransacoes = await _transacaoRepository.FindAll();
+            return listTransacoes;
+        }
+
+        public async Task<List<Transacao>> ListTransacaoByOrigem(int origem)
+        {
+            List<Transacao> listTransacoes = await _transacaoRepository.Query()
+                    .Where(t => t.OrigemTipo == origem).ToListAsync();
             return listTransacoes;
         }
 

@@ -46,6 +46,26 @@ namespace RecDesp.Api.Controllers
         }
 
         [HttpGet]
+        [Route("list-by-origem")]
+        public async Task<IActionResult> ListTransacaoByOrigem([FromQuery] int origem)
+        {
+            try
+            {
+                List<Transacao> transacoes = await _transacaoService.ListTransacaoByOrigem(origem);
+
+                return Ok(transacoes);
+            }
+            catch (ArgumentException e)
+            {
+                return BadRequest(e.Message);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
+            }
+        }
+
+        [HttpGet]
         [Route("get-by-id")]
         public async Task<IActionResult> GetTransacao([FromQuery] long id)
         {

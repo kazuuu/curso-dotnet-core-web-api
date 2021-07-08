@@ -1,12 +1,11 @@
 ﻿using RecDesp.Domain.Models;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace RecDesp.Data.Repositories
 {
-    public interface IGenericRepository<T, T_ID> where T : BaseModel<T_ID> where T_ID : struct
+    public interface IGenericRepository<T, T_ID> where T : IBaseModel<T_ID> where T_ID : struct
     {
         Task<T> CreateAsync(T entity);
         Task<T> UpdateAsync(T entity);

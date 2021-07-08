@@ -1,8 +1,10 @@
-﻿using RecDesp.Data.Repositories;
+﻿using Microsoft.EntityFrameworkCore;
+using RecDesp.Data.Repositories;
 using RecDesp.Domain.Models;
 using RecDesp.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace RecDesp.Domain.Services.Implementations
@@ -32,6 +34,13 @@ namespace RecDesp.Domain.Services.Implementations
             }
             */
 
+            return listCobrancas;
+        }
+
+        public async Task<List<Cobranca>> ListCobrancasByStatus(int status)
+        {
+            List<Cobranca> listCobrancas = await _cobrancaRepository.Query()
+                    .Where(c => c.Status == status).ToListAsync();
             return listCobrancas;
         }
 

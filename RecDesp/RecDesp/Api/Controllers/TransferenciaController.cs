@@ -44,6 +44,26 @@ namespace RecDesp.Api.Controllers
         }
 
         [HttpGet]
+        [Route("list-by-valor")]
+        public async Task<IActionResult> ListTransferenciasByValor([FromQuery] double min, [FromQuery] double max)
+        {
+            try
+            {
+                List<Transferencia> transferencias = await _transferenciaService.ListTransferenciasByValor(min, max);
+
+                return Ok(transferencias);
+            }
+            catch (ArgumentException e)
+            {
+                return BadRequest(e.Message);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
+            }
+        }
+
+        [HttpGet]
         [Route("get-by-id")]
         public async Task<IActionResult> GetTransferencia([FromQuery] long id)
         {

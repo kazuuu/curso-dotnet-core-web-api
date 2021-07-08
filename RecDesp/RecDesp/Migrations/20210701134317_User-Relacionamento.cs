@@ -285,11 +285,6 @@ namespace RecDesp.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
-
-            migrationBuilder.RenameColumn(
-                name: "id",
-                table: "Areas",
-                newName: "Id");
         }
     }
 }

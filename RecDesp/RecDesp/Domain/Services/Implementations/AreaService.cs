@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using RecDesp.Data.Repositories;
 using RecDesp.Domain.Models;
 using RecDesp.Models;
@@ -23,6 +24,13 @@ namespace RecDesp.Domain.Services.Implementations
         public async Task<List<Area>> ListAreas()
         {
             List<Area> listAreas = await _areaRepository.FindAll();
+            return listAreas;
+        }
+
+        public async Task<List<Area>> ListAreasBySaldo(double min, double max)
+        {
+            List<Area> listAreas = await _areaRepository.Query()
+                    .Where(a => a.Saldo >= min && a.Saldo <= max).ToListAsync();
             return listAreas;
         }
 
@@ -59,14 +67,13 @@ namespace RecDesp.Domain.Services.Implementations
             ApplicationUser user = await _userManager.FindByNameAsync(userName);
             Area area = await _areaRepository.GetAsync(id);
 
- 
-            // essa budega não tá funcionando
-            area.Users.Add(user);
+            if (user != null && area != null)
+            {
+                area.Users.Add(user);
+                await _areaRepository.AddUser(area);
 
-            bool valid = await _areaRepository.AddUser(area);
-
-            if (valid)
                 return "Usuário inserido na área com sucesso!";
+            }
             else
                 return "Usuário ou área não existe!";
         }

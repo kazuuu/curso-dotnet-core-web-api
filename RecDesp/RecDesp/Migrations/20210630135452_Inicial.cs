@@ -25,11 +25,6 @@ namespace RecDesp.Migrations
                     table.PrimaryKey("PK_Areas", x => x.Id);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
-
-            migrationBuilder.InsertData(
-                table: "Areas",
-                columns: new[] { "Id", "NomeArea", "Saldo" },
-                values: new object[] { 1L, "Treinamento", 2000.0 });
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

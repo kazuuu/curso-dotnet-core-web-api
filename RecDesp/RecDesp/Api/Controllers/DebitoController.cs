@@ -48,6 +48,26 @@ namespace RecDesp.Api.Controllers
         }
 
         [HttpGet]
+        [Route("list-by-valor")]
+        public async Task<IActionResult> ListDebitosByValor([FromQuery] double min, [FromQuery] double max)
+        {
+            try
+            {
+                List<Debito> debitos = await _debitoService.ListDebitosByValor(min, max);
+
+                return Ok(debitos);
+            }
+            catch (ArgumentException e)
+            {
+                return BadRequest(e.Message);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
+            }
+        }
+
+        [HttpGet]
         [Route("get-by-id")]
         public async Task<IActionResult> GetDebitos([FromQuery] long id)
         {

@@ -30,13 +30,13 @@ namespace RecDesp.Migrations
                         column: x => x.fromAreaId,
                         principalTable: "Areas",
                         principalColumn: "id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Cobrancas_Areas_toAreaId",
                         column: x => x.toAreaId,
                         principalTable: "Areas",
                         principalColumn: "id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 

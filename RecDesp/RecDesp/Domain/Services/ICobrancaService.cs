@@ -9,6 +9,7 @@ namespace RecDesp.Domain.Services
     public interface ICobrancaService
     {
         Task<List<Cobranca>> ListCobrancas();
+        Task<List<Cobranca>> ListCobrancasByStatus(int status);
         Task<Cobranca> GetCobrancaById(long cobrancaId);
         Task<Cobranca> CreateCobranca(Cobranca cobranca);
         Task<bool> DeleteCobranca(long cobrancaId);

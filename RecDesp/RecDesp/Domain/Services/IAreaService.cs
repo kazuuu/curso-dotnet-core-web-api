@@ -9,6 +9,7 @@ namespace RecDesp.Domain.Services
     public interface IAreaService
     {
         Task<List<Area>> ListAreas();
+        Task<List<Area>> ListAreasBySaldo(double min, double max);
         Task<Area> GetAreaById(long areaId);
         Task<Area> CreateArea(Area area);
         Task<Area> UpdateArea(Area area);

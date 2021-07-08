@@ -45,6 +45,26 @@ namespace RecDesp.Api.Controllers
         }
 
         [HttpGet]
+        [Route("list-by-status")]
+        public async Task<IActionResult> ListCobrancasByStatus([FromQuery] int status)
+        {
+            try
+            {
+                List<Cobranca> cobrancas = await _cobrancaService.ListCobrancasByStatus(status);
+
+                return Ok(cobrancas);
+            }
+            catch (ArgumentException e)
+            {
+                return BadRequest(e.Message);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
+            }
+        }
+
+        [HttpGet]
         [Route("get-by-id")]
         public async Task<IActionResult> GetCobranca([FromQuery] long id)
         {

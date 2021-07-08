@@ -77,8 +77,7 @@ namespace RecDesp
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "RecDesp", Version = "v1" });
             });
 
-            services.AddControllers().AddJsonOptions(x =>
-                x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve);
+            services.AddControllers();
 
             services.AddScoped<IAreaService, AreaService>();
             services.AddScoped<IUserService, UserService>();

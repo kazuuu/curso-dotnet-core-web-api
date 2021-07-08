@@ -1,4 +1,5 @@
-﻿using RecDesp.Data.Repositories;
+﻿using Microsoft.EntityFrameworkCore;
+using RecDesp.Data.Repositories;
 using RecDesp.Domain.Models;
 using RecDesp.Models;
 using System;
@@ -24,6 +25,13 @@ namespace RecDesp.Domain.Services.Implementations
         public async Task<List<Transferencia>> ListTransferencias()
         {
             List<Transferencia> listTransferencias = await _transferenciaRepository.FindAll();
+            return listTransferencias;
+        }
+
+        public async Task<List<Transferencia>> ListTransferenciasByValor(double valorMin, double valorMax)
+        {
+            List<Transferencia> listTransferencias = await _transferenciaRepository.Query()
+                    .Where(c => c.Valor >= valorMin && c.Valor <= valorMax).ToListAsync();
             return listTransferencias;
         }
 

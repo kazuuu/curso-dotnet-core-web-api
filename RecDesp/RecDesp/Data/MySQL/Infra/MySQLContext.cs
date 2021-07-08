@@ -22,14 +22,14 @@ namespace RecDesp.Infra
         public DbSet<Debito> Debitos { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            modelBuilder.Entity<ApplicationUser>().ToTable("AspNetUsers").HasKey(t => t.Id);
+        {      
             base.OnModelCreating(modelBuilder);
 
-            /*modelBuilder.Entity<Area>()
-                .HasData(
-                    new Area { Id = 1, NomeArea = "Treinamento", Saldo = 2000 }
-                );*/
+            modelBuilder.Entity<ApplicationUser>().ToTable("AspNetUsers").HasKey(t => t.Id);
+            /*
+            modelBuilder.Entity<Area>().HasMany(a => a.Users).WithOne().OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<ApplicationUser>().HasMany(u => u.Areas).WithOne().OnDelete(DeleteBehavior.Cascade);
+            */
 
             modelBuilder.Entity<InstituicaoFinanceira>()
                 .HasData(

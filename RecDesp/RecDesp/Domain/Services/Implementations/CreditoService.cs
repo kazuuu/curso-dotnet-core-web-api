@@ -1,4 +1,5 @@
-﻿using RecDesp.Data.Repositories;
+﻿using Microsoft.EntityFrameworkCore;
+using RecDesp.Data.Repositories;
 using RecDesp.Domain.Models;
 using RecDesp.Models;
 using System;
@@ -24,6 +25,13 @@ namespace RecDesp.Domain.Services.Implementations
         public async Task<List<Credito>> ListCreditos()
         {
             List<Credito> listCreditos = await _creditoRepository.FindAll();
+            return listCreditos;
+        }
+
+        public async Task<List<Credito>> ListCreditosByValor(double valorMin, double valorMax)
+        {
+            List<Credito> listCreditos = await _creditoRepository.Query()
+                    .Where(c => c.Valor >= valorMin && c.Valor <= valorMax).ToListAsync();
             return listCreditos;
         }
 

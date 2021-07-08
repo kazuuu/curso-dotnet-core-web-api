@@ -3,7 +3,9 @@ using RecDesp.Domain.Models;
 using RecDesp.Infra;
 using RecDesp.Models;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace RecDesp.Data.Repositories.Implementations
 {

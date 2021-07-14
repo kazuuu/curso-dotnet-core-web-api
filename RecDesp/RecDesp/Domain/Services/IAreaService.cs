@@ -14,6 +14,6 @@ namespace RecDesp.Domain.Services
         Task<Area> CreateArea(Area area);
         Task<Area> UpdateArea(Area area);
         Task<bool> DeleteArea(long areaId);
-        Task<string> AddUser(long id, string userName);
+        Task<bool> AddUserToArea(long areaId, string userName);
     }
 }

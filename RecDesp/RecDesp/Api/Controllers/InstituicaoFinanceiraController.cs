@@ -5,7 +5,6 @@ using RecDesp.Domain.Models;
 using RecDesp.Domain.Services;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace RecDesp.Api.Controllers
@@ -44,11 +43,11 @@ namespace RecDesp.Api.Controllers
 
         [HttpGet]
         [Route("get-by-id")]
-        public async Task<IActionResult> GetInstituicoes([FromQuery] int id)
+        public async Task<IActionResult> GetInstituicoes([FromQuery] int instituicaoId)
         {
             try
             {
-                InstituicaoFinanceira instituicao = await _instituicaoService.GetInstituicaoById(id);
+                InstituicaoFinanceira instituicao = await _instituicaoService.GetInstituicaoById(instituicaoId);
                 return Ok(instituicao);
             }
             catch (ArgumentException e)

@@ -6,6 +6,6 @@ namespace RecDesp.Data.Repositories
 {
     public interface IAreaRepository : IGenericRepository<Area, long>
     {
-        Task<bool> AddUser(Area area);
+        Task<bool> AddUserToArea(Area area);
     }
 }

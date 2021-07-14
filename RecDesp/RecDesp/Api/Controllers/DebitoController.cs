@@ -17,14 +17,10 @@ namespace RecDesp.Api.Controllers
     public class DebitoController : ControllerBase
     {
         private readonly IDebitoService _debitoService;
-        private readonly IAreaService _areaService;
-        private readonly IInstituicaoFinanceiraService _instituicaoService;
 
-        public DebitoController(IDebitoService debitoService, IAreaService areaService, IInstituicaoFinanceiraService instituicaoService)
+        public DebitoController(IDebitoService debitoService)
         {
             _debitoService = debitoService;
-            _areaService = areaService;
-            _instituicaoService = instituicaoService;
         }
 
         [HttpGet]
@@ -69,11 +65,11 @@ namespace RecDesp.Api.Controllers
 
         [HttpGet]
         [Route("get-by-id")]
-        public async Task<IActionResult> GetDebitos([FromQuery] long id)
+        public async Task<IActionResult> GetDebitos([FromQuery] long debitoId)
         {
             try
             {
-                Debito newDebito = await _debitoService.GetDebitoById(id);
+                Debito newDebito = await _debitoService.GetDebitoById(debitoId);
 
                 return Ok(newDebito);
             }
@@ -92,21 +88,11 @@ namespace RecDesp.Api.Controllers
         {
             try
             {
-                Area area = await _areaService.GetAreaById(areaId);
-                InstituicaoFinanceira instituicao = await _instituicaoService.GetInstituicaoById(instituicaoId);
+                debito.AreaId = areaId;
+                debito.InstituicaoId = instituicaoId;
+                Debito newDebito = await _debitoService.CreateDebito(debito);
 
-                if (area != null && instituicao != null)
-                {
-                    debito.AreaId = area.Id;
-                    debito.Area = area;
-                    debito.InstituicaoId = instituicao.Id;
-                    debito.Instituicao = instituicao;
-                    Debito newDebito = await _debitoService.CreateDebito(debito);
-
-                    return Ok(newDebito);
-                }
-                else
-                    return NotFound();
+                return Ok(newDebito);
             }
             catch (ArgumentException e)
             {
@@ -120,15 +106,13 @@ namespace RecDesp.Api.Controllers
 
         [HttpDelete]
         [Route("delete-by-id")]
-        public async Task<IActionResult> DeleteDebito([FromQuery] long id)
+        public async Task<IActionResult> DeleteDebito([FromQuery] long debitoId)
         {
             try
             {
-                bool debito = await _debitoService.DeleteDebito(id);
-                if (debito)
-                    return NoContent();
+                bool debito = await _debitoService.DeleteDebito(debitoId);
 
-                return NotFound();
+                return NoContent();      
             }
             catch (ArgumentException e)
             {

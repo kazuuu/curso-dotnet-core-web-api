@@ -38,14 +38,17 @@ namespace RecDesp.Domain.Services.Implementations
         public async Task<Credito> GetCreditoById(long creditoId)
         {
             Credito newCredito = await _creditoRepository.GetAsync(creditoId);
+
+            if (newCredito == null) throw new ArgumentException("O crédito não existe!");
+
             return newCredito;
         }
 
         public async Task<Credito> CreateCredito(Credito credito)
         {
-            // gera um externalId aleatório
-            Random randNum = new Random();
-            credito.ExternalId = randNum.Next(1000);
+            Area area = await _areaRepository.GetAsync(credito.AreaId);
+
+            if (area == null) throw new ArgumentException("Área inválida");
 
             credito.Data = DateTime.Now;
 
@@ -61,13 +64,11 @@ namespace RecDesp.Domain.Services.Implementations
             Credito credito = await _creditoRepository.GetAsync(creditoId);
             bool newCredito = await _creditoRepository.DeleteAsync(creditoId);
 
-            if (newCredito)
-            {
-                await AtualizaSaldo(credito, "sub");
-                return true;
-            }       
-            else
-                return false;
+            if (newCredito == false) throw new ArgumentException("O crédito não existe!");
+
+            await AtualizaSaldo(credito, "sub");
+
+            return true;
         }
 
         private async Task NewTransacao(Credito newCredito)

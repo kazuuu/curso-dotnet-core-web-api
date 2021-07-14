@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RecDesp.Domain.Models;
 using RecDesp.Domain.Services;
-using RecDesp.Models;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -16,12 +15,10 @@ namespace RecDesp.Api.Controllers
     public class CreditoController : ControllerBase
     {
         private readonly ICreditoService _creditoService;
-        private readonly IAreaService _areaService;
 
-        public CreditoController(ICreditoService creditoService, IAreaService areaService)
+        public CreditoController(ICreditoService creditoService)
         {
             _creditoService = creditoService;
-            _areaService = areaService;
         }
 
         [HttpGet]
@@ -66,11 +63,11 @@ namespace RecDesp.Api.Controllers
 
         [HttpGet]
         [Route("get-by-id")]
-        public async Task<IActionResult> GetCredito([FromQuery] long id)
+        public async Task<IActionResult> GetCredito([FromQuery] long creditoId)
         {
             try
             {
-                Credito newCredito = await _creditoService.GetCreditoById(id);
+                Credito newCredito = await _creditoService.GetCreditoById(creditoId);
 
                 return Ok(newCredito);
             }
@@ -89,18 +86,10 @@ namespace RecDesp.Api.Controllers
         {
             try
             {
-                Area area = await _areaService.GetAreaById(areaId);
+                credito.AreaId = areaId;
+                Credito newCredito = await _creditoService.CreateCredito(credito);
 
-                if (area != null)
-                {
-                    credito.AreaId = area.Id;
-                    credito.Area = area;
-                    Credito newCredito = await _creditoService.CreateCredito(credito);
-
-                    return Ok(newCredito);
-                }
-                else
-                    return NotFound();
+                return Ok(newCredito);
             }
             catch (ArgumentException e)
             {
@@ -114,15 +103,13 @@ namespace RecDesp.Api.Controllers
 
         [HttpDelete]
         [Route("delete-by-id")]
-        public async Task<IActionResult> DeleteCredito([FromQuery] long id)
+        public async Task<IActionResult> DeleteCredito([FromQuery] long creditoId)
         {
             try
             {
-                bool credito = await _creditoService.DeleteCredito(id);
-                if (credito)
-                    return NoContent();
+                bool credito = await _creditoService.DeleteCredito(creditoId);
 
-                return NotFound();
+                return NoContent();
             }
             catch (ArgumentException e)
             {

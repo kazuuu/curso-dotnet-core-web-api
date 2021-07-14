@@ -13,12 +13,15 @@ namespace RecDesp.Domain.Services.Implementations
     {
         private readonly IDebitoRepository _debitoRepository;
         private readonly IAreaRepository _areaRepository;
+        private readonly IInstituicaoFinanceiraRepository _instituicaoRepository;
         private readonly ITransacaoRepository _transacaoRepository;
 
-        public DebitoService(IDebitoRepository debitoRepository, IAreaRepository areaRepository, ITransacaoRepository transacaoRepository)
+        public DebitoService(IDebitoRepository debitoRepository, IAreaRepository areaRepository, 
+            IInstituicaoFinanceiraRepository instituicaoRepository, ITransacaoRepository transacaoRepository)
         {
             _debitoRepository = debitoRepository;
             _areaRepository = areaRepository;
+            _instituicaoRepository = instituicaoRepository;
             _transacaoRepository = transacaoRepository;
         }
 
@@ -43,24 +46,21 @@ namespace RecDesp.Domain.Services.Implementations
 
         public async Task<Debito> CreateDebito(Debito debito)
         {
+            Area area = await _areaRepository.GetAsync(debito.AreaId);
+            InstituicaoFinanceira instituicao = await _instituicaoRepository.GetAsync(debito.InstituicaoId);
+
+            if (area == null) throw new ArgumentException("Área inválida!");
+            if (instituicao == null) throw new ArgumentException("Instituição inválida!");
+
             // verifica se o saldo é valido e atualiza o saldo de cada área
             bool valida = await AtualizaSaldo(debito, "sub");
+            if (valida == false) throw new ArgumentException("O saldo da área é inválido!");
 
-            if (valida)
-            {
-                // gera um externalId aleatório
-                Random randNum = new Random();
-                debito.ExternalId = randNum.Next(1000);
+            debito.Data = DateTime.Now;
+            Debito newDebito = await _debitoRepository.CreateAsync(debito);
+            await NewTransacao(newDebito);
 
-                debito.Data = DateTime.Now;
-
-                Debito newDebito = await _debitoRepository.CreateAsync(debito);
-                await NewTransacao(newDebito);
-
-                return newDebito;
-            }
-            else
-                return null;
+            return newDebito;          
         }
 
         public async Task<bool> DeleteDebito(long debitoId)
@@ -68,10 +68,11 @@ namespace RecDesp.Domain.Services.Implementations
             Debito debito = await _debitoRepository.GetAsync(debitoId);
             bool newDebito = await _debitoRepository.DeleteAsync(debitoId);
 
-            if (newDebito)
-                return await AtualizaSaldo(debito, "soma");
-            else
-                return false;
+            if (newDebito == false) throw new ArgumentException("O débito não existe!");
+
+            await AtualizaSaldo(debito, "soma");
+
+            return true;
         }
 
         private async Task NewTransacao(Debito newDebito)
@@ -93,17 +94,12 @@ namespace RecDesp.Domain.Services.Implementations
         private async Task<bool> AtualizaSaldo(Debito newDebito, string opArea)
         {
             Area area = _areaRepository.Get(newDebito.AreaId);
+            if (area.Saldo <= 0 || area.Saldo < newDebito.Valor) return false;
 
-            if (area.Saldo <= 0 || area.Saldo < newDebito.Valor)
-                return false;
-            else
-            {
-                area.Saldo = CalculaSaldo(newDebito.Valor, area.Saldo, opArea);
+            area.Saldo = CalculaSaldo(newDebito.Valor, area.Saldo, opArea);
+            await _areaRepository.UpdateAsync(area);
 
-                await _areaRepository.UpdateAsync(area);
-
-                return true;
-            }
+            return true;
         }
 
         private static double CalculaSaldo(double valor, double saldo, string operacao)

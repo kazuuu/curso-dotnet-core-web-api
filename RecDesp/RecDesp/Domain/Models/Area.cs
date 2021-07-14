@@ -8,10 +8,6 @@ namespace RecDesp.Models
         public string NomeArea { get; set; }
         public double Saldo { get; set; }
 
-        public Area()
-        {
-            Users = new List<ApplicationUser>();
-        }
         public ICollection<ApplicationUser> Users { get; set; }
     }
 }

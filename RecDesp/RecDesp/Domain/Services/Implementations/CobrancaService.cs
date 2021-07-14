@@ -26,14 +26,6 @@ namespace RecDesp.Domain.Services.Implementations
         {
             List<Cobranca> listCobrancas = await _cobrancaRepository.FindAll();
 
-            /* Tentei fazer com que a área não retorne como null
-            for (int i = 0; i < listCobrancas.Count; i++)
-            {
-                listCobrancas[i].FromArea = _areaRepository.Get(listCobrancas[i].FromAreaId);
-                listCobrancas[i].ToArea = _areaRepository.Get(listCobrancas[i].ToAreaId);
-            }
-            */
-
             return listCobrancas;
         }
 
@@ -47,13 +39,27 @@ namespace RecDesp.Domain.Services.Implementations
         public async Task<Cobranca> GetCobrancaById(long cobrancaId)
         {
             Cobranca newCobranca = await _cobrancaRepository.GetAsync(cobrancaId);
+
+            if (newCobranca == null) throw new ArgumentException("A cobrança não existe!");
+
             return newCobranca;
         }
 
         public async Task<Cobranca> CreateCobranca(Cobranca cobranca)
         {
+            // pegando as áreas para serem salvas na cobrança
+            Area fromNewArea = _areaRepository.Get(cobranca.FromAreaId);
+            Area toNewArea = _areaRepository.Get(cobranca.ToAreaId);
+
+            if (fromNewArea == null)
+                throw new ArgumentException("A área cobradora é inválida!");
+            if (toNewArea == null)
+                throw new ArgumentException("A área cobrada é inválida!");
+
+            cobranca.Data = DateTime.Now; // salva a data de quando foi feita a cobrança
             cobranca.Status = 1; // Setando a cobrança como pendente
             Cobranca newCobranca = await _cobrancaRepository.CreateAsync(cobranca);
+
             return newCobranca;
         }
 
@@ -62,42 +68,37 @@ namespace RecDesp.Domain.Services.Implementations
             Cobranca cobranca = await _cobrancaRepository.GetAsync(cobrancaId);
             bool newCobranca = await _cobrancaRepository.DeleteAsync(cobrancaId);
 
-            if (newCobranca)
-                return await AtualizaSaldo(cobranca, "sub", "soma"); 
-            else
-                return false;
+            if (newCobranca == false) throw new ArgumentException("A cobrança não existe!");
+
+            return await AtualizaSaldo(cobranca, "sub", "soma");
         }
 
         public async Task<Cobranca> CobrancaResponse(long cobrancaId, int status)
         {
             Cobranca newCobranca = await _cobrancaRepository.GetAsync(cobrancaId);
-            bool valida = false;
-            
+            if (status < 1 || status > 3 || newCobranca == null) 
+                throw new ArgumentException("Cobrança Inválida!");
+
             if (status == 2)
             {
                 // Se a cobrança for aprovada irá gerar uma nova transação
                 await NewTransacao(newCobranca);
-
                 // verifica se o saldo é valido e atualiza o saldo de cada área
-                valida = await AtualizaSaldo(newCobranca, "soma", "sub");                
-            }
-                
-            if (status < 1 || status > 3 || newCobranca == null || valida == false)
-                return null;
-            else
-            {
-                newCobranca.Status = status;
-                newCobranca = await _cobrancaRepository.UpdateAsync(newCobranca);
+                bool valida = await AtualizaSaldo(newCobranca, "soma", "sub");
 
-                return newCobranca;
+                if (valida == false) throw new ArgumentException("O saldo da área é inválido!");
             }
+            newCobranca.Status = status;
+            newCobranca = await _cobrancaRepository.UpdateAsync(newCobranca);
+            
+            return newCobranca;
         }
 
         private async Task NewTransacao(Cobranca newCobranca)
         {
             Area toArea = await _areaRepository.GetAsync(newCobranca.ToAreaId);
 
-            Transacao transacao = new Transacao
+            Transacao transacao = new()
             {
                 Data = DateTime.Now,
                 AreaId = newCobranca.FromAreaId,

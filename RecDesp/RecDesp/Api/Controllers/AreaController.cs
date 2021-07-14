@@ -63,11 +63,11 @@ namespace RecDesp.Controllers
 
         [HttpGet]
         [Route("get-by-id")]
-        public async Task<IActionResult> GetArea([FromQuery] long id)
+        public async Task<IActionResult> GetArea([FromQuery] long areaId)
         {
             try
             {
-                Area newArea = await _areaService.GetAreaById(id);
+                Area newArea = await _areaService.GetAreaById(areaId);
                 
                 return Ok(newArea);
             }
@@ -102,12 +102,11 @@ namespace RecDesp.Controllers
 
         [HttpPut]
         [Route("put-by-id")]
-        public async Task<IActionResult> PutArea([FromQuery] long id, [FromBody] Area area)
+        public async Task<IActionResult> PutArea([FromQuery] long areaId, [FromBody] Area area)
         {
             try
             {
-                area.Id = id;
-
+                area.Id = areaId;
                 Area newArea = await _areaService.UpdateArea(area);
 
                 return Ok(newArea);
@@ -124,15 +123,13 @@ namespace RecDesp.Controllers
 
         [HttpDelete]
         [Route("delete-by-id")]
-        public async Task<IActionResult> DeleteArea([FromQuery] long id)
+        public async Task<IActionResult> DeleteArea([FromQuery] long areaId)
         {
             try
             {
-                bool area = await _areaService.DeleteArea(id);
-                if (area)
-                    return NoContent();
+                bool area = await _areaService.DeleteArea(areaId);
 
-                return NotFound();
+                return NoContent();
             }
             catch (ArgumentException e)
             {
@@ -146,11 +143,11 @@ namespace RecDesp.Controllers
 
         [HttpPost]
         [Route("add-user")]
-        public async Task<IActionResult> AddUser([FromQuery] long areaId, [FromQuery] string userName)
+        public async Task<IActionResult> AddUserToArea([FromQuery] long areaId, [FromQuery] string userName)
         {
             try
             {
-                return Ok(await _areaService.AddUser(areaId, userName));
+                return Ok(await _areaService.AddUserToArea(areaId, userName));
             }
             catch (ArgumentException e)
             {

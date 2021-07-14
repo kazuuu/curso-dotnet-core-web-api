@@ -38,24 +38,29 @@ namespace RecDesp.Domain.Services.Implementations
         public async Task<Transferencia> GetTransferenciaById(long transferenciaId)
         {
             Transferencia newTransferencia = await _transferenciaRepository.GetAsync(transferenciaId);
+
+            if (newTransferencia == null) throw new ArgumentException("A transferência não existe!");
+
             return newTransferencia;
         }
 
         public async Task<Transferencia> CreateTransferencia(Transferencia transferencia)
         {
+            Area fromArea = await _areaRepository.GetAsync(transferencia.FromAreaId);
+            Area toArea = await _areaRepository.GetAsync(transferencia.ToAreaId);
+
+            if (fromArea == null) throw new ArgumentException("A área que transfere o dinheiro não existe");
+            if (toArea == null) throw new ArgumentException("A área que recebe o dinheiro não existe");
+
             // verifica se o saldo é valido e atualiza o saldo de cada área
             bool valida = await AtualizaSaldo(transferencia, "sub", "soma");
+            if (valida == false) throw new ArgumentException("Saldo inválido!");
 
-            if (valida) 
-            {
-                transferencia.Data = DateTime.Now;
-                Transferencia newTransferencia = await _transferenciaRepository.CreateAsync(transferencia);
-                await NewTransacao(newTransferencia);
+            transferencia.Data = DateTime.Now;
+            Transferencia newTransferencia = await _transferenciaRepository.CreateAsync(transferencia);
+            await NewTransacao(newTransferencia);
 
-                return newTransferencia;
-            }    
-            else 
-                return null;
+            return newTransferencia;
         }
 
         public async Task<bool> DeleteTransferencia(long transferenciaId)
@@ -63,10 +68,9 @@ namespace RecDesp.Domain.Services.Implementations
             Transferencia transferencia = await _transferenciaRepository.GetAsync(transferenciaId);
             bool newTransferencia = await _transferenciaRepository.DeleteAsync(transferenciaId);
 
-            if (newTransferencia)
-                return await AtualizaSaldo(transferencia, "soma", "sub");
-            else
-                return false;
+            if (newTransferencia == false) throw new ArgumentException("A transferência não existe!");
+
+            return await AtualizaSaldo(transferencia, "soma", "sub");
         }
 
         private async Task NewTransacao(Transferencia newTransferencia)
@@ -93,16 +97,14 @@ namespace RecDesp.Domain.Services.Implementations
             Area toArea = _areaRepository.Get(newTransferencia.ToAreaId);
 
             if (fromArea.Saldo <= 0 || fromArea.Saldo < newTransferencia.Valor) return false;
-            else
-            {
-                fromArea.Saldo = CalculaSaldo(newTransferencia.Valor, fromArea.Saldo, opFromArea);
-                toArea.Saldo = CalculaSaldo(newTransferencia.Valor, toArea.Saldo, opToArea);
 
-                await _areaRepository.UpdateAsync(fromArea);
-                await _areaRepository.UpdateAsync(toArea);
+            fromArea.Saldo = CalculaSaldo(newTransferencia.Valor, fromArea.Saldo, opFromArea);
+            toArea.Saldo = CalculaSaldo(newTransferencia.Valor, toArea.Saldo, opToArea);
 
-                return true;
-            }
+            await _areaRepository.UpdateAsync(fromArea);
+            await _areaRepository.UpdateAsync(toArea);
+
+            return true;
         }
 
         private static double CalculaSaldo(double valor, double saldo, string operacao)

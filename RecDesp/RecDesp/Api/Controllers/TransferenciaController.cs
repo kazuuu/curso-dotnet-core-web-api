@@ -15,12 +15,10 @@ namespace RecDesp.Api.Controllers
     public class TransferenciaController : ControllerBase
     {
         private readonly ITransferenciaService _transferenciaService;
-        private readonly IAreaService _areaService;
 
-        public TransferenciaController(ITransferenciaService transferenciaService, IAreaService areaService)
+        public TransferenciaController(ITransferenciaService transferenciaService)
         {
             _transferenciaService = transferenciaService;
-            _areaService = areaService;
         }
 
         [HttpGet]
@@ -65,11 +63,11 @@ namespace RecDesp.Api.Controllers
 
         [HttpGet]
         [Route("get-by-id")]
-        public async Task<IActionResult> GetTransferencia([FromQuery] long id)
+        public async Task<IActionResult> GetTransferencia([FromQuery] long transferenciaId)
         {
             try
             {
-                Transferencia newTransferencia = await _transferenciaService.GetTransferenciaById(id);
+                Transferencia newTransferencia = await _transferenciaService.GetTransferenciaById(transferenciaId);
 
                 return Ok(newTransferencia);
             }
@@ -89,22 +87,12 @@ namespace RecDesp.Api.Controllers
         {
             try
             {
-                Area fromArea = await _areaService.GetAreaById(fromAreaId);
-                Area toArea = await _areaService.GetAreaById(toAreaId);
+                transferencia.FromAreaId = fromAreaId;
+                transferencia.ToAreaId = toAreaId;
 
-                if (fromArea != null && toArea != null)
-                {
-                    transferencia.FromAreaId = fromAreaId;
-                    transferencia.FromArea = fromArea;
-                    transferencia.ToAreaId = toAreaId;
-                    transferencia.ToArea = toArea;
+                Transferencia newTransferencia = await _transferenciaService.CreateTransferencia(transferencia);
 
-                    Transferencia newTransferencia = await _transferenciaService.CreateTransferencia(transferencia);
-
-                    return Ok(newTransferencia);
-                }
-                else
-                    return NotFound();
+                return Ok(newTransferencia);
             }
             catch (ArgumentException e)
             {
@@ -118,15 +106,13 @@ namespace RecDesp.Api.Controllers
 
         [HttpDelete]
         [Route("delete-by-id")]
-        public async Task<IActionResult> DeleteTransferencia([FromQuery] long id)
+        public async Task<IActionResult> DeleteTransferencia([FromQuery] long transferenciaId)
         {
             try
             {
-                bool transferencia = await _transferenciaService.DeleteTransferencia(id);
-                if (transferencia)
-                    return NoContent();
+                bool transferencia = await _transferenciaService.DeleteTransferencia(transferenciaId);
 
-                return NotFound();
+                return NoContent();
             }
             catch (ArgumentException e)
             {

@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RecDesp.Domain.Models;
 using RecDesp.Domain.Services;
-using RecDesp.Models;
 
 namespace RecDesp.Api.Controllers
 {
@@ -16,12 +15,10 @@ namespace RecDesp.Api.Controllers
     public class CobrancaController : ControllerBase
     {
         private readonly ICobrancaService _cobrancaService;
-        private readonly IAreaService _areaService;
 
-        public CobrancaController(ICobrancaService cobrancaService, IAreaService areaService)
+        public CobrancaController(ICobrancaService cobrancaService)
         {
             _cobrancaService = cobrancaService;
-            _areaService = areaService;
         }
 
         [HttpGet]
@@ -66,11 +63,11 @@ namespace RecDesp.Api.Controllers
 
         [HttpGet]
         [Route("get-by-id")]
-        public async Task<IActionResult> GetCobranca([FromQuery] long id)
+        public async Task<IActionResult> GetCobranca([FromQuery] long cobrancaId)
         {
             try
             {
-                Cobranca newCobranca = await _cobrancaService.GetCobrancaById(id);
+                Cobranca newCobranca = await _cobrancaService.GetCobrancaById(cobrancaId);
 
                 return Ok(newCobranca);
             }
@@ -89,22 +86,12 @@ namespace RecDesp.Api.Controllers
         {
             try
             {
-                // pegando as áreas para serem salvas na cobrança
-                Area fromNewArea = await _areaService.GetAreaById(fromArea);
-                Area toNewArea = await _areaService.GetAreaById(toArea);
+                cobranca.FromAreaId = fromArea;
+                cobranca.ToAreaId = toArea;
 
-                if (fromNewArea != null && toNewArea != null)
-                {
-                    cobranca.FromAreaId = fromNewArea.Id;
-                    cobranca.ToAreaId = toNewArea.Id;
-                    cobranca.Data = DateTime.Now; // salva a data de quando foi feita a cobrança
+                Cobranca newCobranca = await _cobrancaService.CreateCobranca(cobranca);
 
-                    Cobranca newCobranca = await _cobrancaService.CreateCobranca(cobranca);
-
-                    return Ok(newCobranca);
-                }
-                else
-                    return NotFound();
+                return Ok(newCobranca);
             }
             catch (ArgumentException e)
             {
@@ -118,15 +105,13 @@ namespace RecDesp.Api.Controllers
 
         [HttpDelete]
         [Route("delete-by-id")]
-        public async Task<IActionResult> DeleteCobranca([FromQuery] long id)
+        public async Task<IActionResult> DeleteCobranca([FromQuery] long cobrancaId)
         {
             try
             {
-                bool cobranca = await _cobrancaService.DeleteCobranca(id);
-                if (cobranca)
-                    return NoContent();
+                bool cobranca = await _cobrancaService.DeleteCobranca(cobrancaId);
 
-                return NotFound();
+                return NoContent();
             }
             catch (ArgumentException e)
             {
@@ -146,10 +131,7 @@ namespace RecDesp.Api.Controllers
             {
                 Cobranca newCobranca = await _cobrancaService.CobrancaResponse(cobrancaId, status);
 
-                if (newCobranca != null)
-                    return Ok(newCobranca);
-                else
-                    return NotFound();
+                return Ok(newCobranca);
             }
             catch (ArgumentException e)
             {

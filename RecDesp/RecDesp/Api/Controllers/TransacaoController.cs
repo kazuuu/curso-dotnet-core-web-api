@@ -3,10 +3,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RecDesp.Domain.Models;
 using RecDesp.Domain.Services;
-using RecDesp.Models;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace RecDesp.Api.Controllers
@@ -17,12 +15,10 @@ namespace RecDesp.Api.Controllers
     public class TransacaoController : ControllerBase
     {
         private readonly ITransacaoService _transacaoService;
-        private readonly IAreaService _areaService;
 
-        public TransacaoController(ITransacaoService transacaoService, IAreaService areaService)
+        public TransacaoController(ITransacaoService transacaoService)
         {
             _transacaoService = transacaoService;
-            _areaService = areaService;
         }
 
         [HttpGet]
@@ -67,11 +63,11 @@ namespace RecDesp.Api.Controllers
 
         [HttpGet]
         [Route("get-by-id")]
-        public async Task<IActionResult> GetTransacao([FromQuery] long id)
+        public async Task<IActionResult> GetTransacao([FromQuery] long transacaoId)
         {
             try
             {
-                Transacao newTransacao = await _transacaoService.GetTransacaoById(id);
+                Transacao newTransacao = await _transacaoService.GetTransacaoById(transacaoId);
 
                 return Ok(newTransacao);
             }
@@ -89,21 +85,11 @@ namespace RecDesp.Api.Controllers
         public async Task<IActionResult> PostTransacao([FromQuery] long areaId, [FromBody] Transacao transacao)
         {
             try
-            {
-                // verificando se a área existe
-                Area area = await _areaService.GetAreaById(areaId);
+            { 
+                transacao.AreaId = areaId;
+                Transacao newTransacao = await _transacaoService.CreateTransacao(transacao);
 
-                if (area != null)
-                {
-                    transacao.Data = DateTime.Now; // salva a data de quando foi feita a transação
-                    transacao.AreaId = areaId;
-                    transacao.Area = area;
-                    Transacao newTransacao = await _transacaoService.CreateTransacao(transacao);
-
-                    return Ok(newTransacao);
-                }
-                else
-                    return NotFound();
+                return Ok(newTransacao);
             }
             catch (ArgumentException e)
             {
@@ -117,23 +103,14 @@ namespace RecDesp.Api.Controllers
 
         [HttpPut]
         [Route("put-by-id")]
-        public async Task<IActionResult> PutTransacao([FromQuery] long id, [FromBody] Transacao transacao)
+        public async Task<IActionResult> PutTransacao([FromQuery] long transacaoId, [FromBody] Transacao transacao)
         {
             try
             {
-                Area area = await _areaService.GetAreaById(transacao.AreaId);
+                transacao.Id = transacaoId;
+                Transacao newTransacao = await _transacaoService.UpdateTransacao(transacao);
 
-                if (area != null)
-                {
-                    transacao.Id = id;
-                    transacao.Data = DateTime.Now; // salva a data de quando foi feita a transação
-
-                    Transacao newTransacao = await _transacaoService.UpdateTransacao(transacao);
-
-                    return Ok(newTransacao);
-                }
-                else
-                    return NotFound();
+                return Ok(newTransacao);
             }
             catch (ArgumentException e)
             {
@@ -147,15 +124,13 @@ namespace RecDesp.Api.Controllers
 
         [HttpDelete]
         [Route("delete-by-id")]
-        public async Task<IActionResult> DeleteArea([FromQuery] long id)
+        public async Task<IActionResult> DeleteArea([FromQuery] long transacaoId)
         {
             try
             {
-                bool transacao = await _transacaoService.DeleteTransacao(id);
-                if (transacao)
-                    return NoContent();
+                bool transacao = await _transacaoService.DeleteTransacao(transacaoId);
 
-                return NotFound();
+                return NoContent();
             }
             catch (ArgumentException e)
             {

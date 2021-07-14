@@ -37,6 +37,9 @@ namespace RecDesp.Domain.Services.Implementations
         public async Task<Area> GetAreaById(long areaId)
         {
             Area newArea = await _areaRepository.GetAsync(areaId);
+
+            if (newArea == null) throw new ArgumentException("A área não existe!");
+
             return newArea;
         }
 
@@ -50,32 +53,36 @@ namespace RecDesp.Domain.Services.Implementations
         {
             bool newArea = await _areaRepository.DeleteAsync(areaId);
 
-            if (newArea)
-                return true;
-            else
-                return false;
+            if (newArea == false) throw new ArgumentException("A área não existe!");
+
+            return true;
         }
 
         public async Task<Area> UpdateArea(Area area)
         {
             Area newArea = await _areaRepository.UpdateAsync(area);
+            if (newArea == null) throw new ArgumentException("A área não existe!");
+
             return newArea;
         }
 
-        public async Task<string> AddUser(long id, string userName)
+        public async Task<bool> AddUserToArea(long areaId, string userName)
         {
             ApplicationUser user = await _userManager.FindByNameAsync(userName);
-            Area area = await _areaRepository.GetAsync(id);
+            Area area = await _areaRepository.GetAsync(areaId);
 
-            if (user != null && area != null)
-            {
-                area.Users.Add(user);
-                await _areaRepository.AddUser(area);
+            if (user == null)
+                throw new ArgumentException("Usuário não existe!");
+            if (area == null)
+                throw new ArgumentException("Área não existe!");
 
-                return "Usuário inserido na área com sucesso!";
-            }
-            else
-                return "Usuário ou área não existe!";
+            // verifica se a lista de usuários está vazia
+            if (area.Users == null) area.Users = new List<ApplicationUser>();
+
+            area.Users.Add(user);
+            await _areaRepository.AddUserToArea(area);
+
+            return true;
         }
     }
 }

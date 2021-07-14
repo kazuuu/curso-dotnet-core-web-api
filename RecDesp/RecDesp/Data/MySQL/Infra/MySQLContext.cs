@@ -26,10 +26,6 @@ namespace RecDesp.Infra
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.Entity<ApplicationUser>().ToTable("AspNetUsers").HasKey(t => t.Id);
-            /*
-            modelBuilder.Entity<Area>().HasMany(a => a.Users).WithOne().OnDelete(DeleteBehavior.Cascade);
-            modelBuilder.Entity<ApplicationUser>().HasMany(u => u.Areas).WithOne().OnDelete(DeleteBehavior.Cascade);
-            */
 
             modelBuilder.Entity<InstituicaoFinanceira>()
                 .HasData(

@@ -16,7 +16,7 @@ namespace RecDesp.Migrations
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    NomeArea = table.Column<string>(type: "longtext", nullable: true)
+                    NomeArea = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Saldo = table.Column<double>(type: "double", nullable: false)
                 },

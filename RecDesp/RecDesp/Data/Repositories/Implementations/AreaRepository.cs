@@ -1,11 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using RecDesp.Domain.Models;
 using RecDesp.Infra;
 using RecDesp.Models;
-using System.Collections.Generic;
-using System.Linq;
+using System;
 using System.Threading.Tasks;
-using System.Xml.Linq;
 
 namespace RecDesp.Data.Repositories.Implementations
 {
@@ -18,19 +15,16 @@ namespace RecDesp.Data.Repositories.Implementations
             _context = context;
         }
 
-        public virtual async Task<bool> AddUser(Area area)
+        public virtual async Task<bool> AddUserToArea(Area area)
         {
             var entry = _context.Entry(area);
 
-            if (entry != null)
-            {        
-                entry.State = EntityState.Modified;
-                await _context.SaveChangesAsync();
+            if (entry == null) throw new ArgumentException("Entidade não encontrada");
+            
+            entry.State = EntityState.Modified;
+            await _context.SaveChangesAsync();
 
-                return true;
-            }
-
-            throw new KeyNotFoundException("Entidade não encontrada");
+            return true;
         }
     }
 }

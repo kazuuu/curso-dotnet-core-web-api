@@ -26,6 +26,9 @@ namespace RecDesp.Domain.Services.Implementations
         public async Task<InstituicaoFinanceira> GetInstituicaoById(int instituicaoId)
         {
             InstituicaoFinanceira instituicao = await _instituicaoRepository.GetAsync(instituicaoId);
+
+            if (instituicao == null) throw new ArgumentException("A instituição não existe!");
+
             return instituicao;
         }
     }

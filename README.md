@@ -37,5 +37,28 @@ Projeto desenvolvido no curso para desenvolver uma Rest API com DotNet Core 5, E
 10) Criar a classe PostController com as rotas CRUD do modelo Post.
 11) Testar com o Postman.
 
+## Passos para concluir a etapa 01-Design-Pattern
+Organizar o código utilizando um Design Pattern inspirado no DDD - Domain Driven Design
+
+12) Vamos dividir nossa aplicação em Camadas principais:
+- "Domain": Essa é camada de Domínio que concentra toda a regra de negócio da aplicação.
+- "Infrastructure": É a camada de mais baixo nível, responsável por prover serviços como persistência de dados, envio de email, ou seja, dar o suporte tecnológico para as demais camadas;
+- "Application": Coordena as atividades da aplicação, porém, não contém regras de negócio.
+
+14)	Começaremos a trabalhar com os modelos de dados que fazem parte do Domínio, ou seja, da regra de negócio. Vamos mover a classe Post.cs para o seguinte diretório:
+- \Domain\Models\Post.cs
+
+15) Em seguida, vamos criar a classe PostRepository.cs que tratará a persistencia de dados que faz parte da camada de Infrastructure. Esta classe ficará no seguinte diretório:
+- \Infrastructure\Data\Repositories\PostRepository.cs
+
+16) Agora, com os modelos e as interações de dados feitos, vamos aplicar as regras de negócio em uma classe chamada PostService.cs que ficará em:
+- \Domain\Services\PostService.cs
+
+17) E para finalizar, montaremos a ponte da interface com o usuário que serão as Controllers na camada Application. Criaremos a classe PostController.cs
+- \Application\Controllers\PostController.cs
+
+18) E como sempre, vamos rodar e testar nossa aplicação para garantir que deu tudo certo nossa reestruturacao.
+
 Fontes para consultas:
 - Jose Carlos Macoratti: https://www.youtube.com/watch?v=L1bJUKZV0b0
+- Domain Driven Design: https://www.devmedia.com.br/introducao-ao-ddd-em-net/32724

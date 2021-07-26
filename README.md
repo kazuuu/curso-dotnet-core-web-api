@@ -2,7 +2,7 @@
 # curso-dotnet-core-web-api
 Projeto desenvolvido no curso para desenvolver uma Rest API com DotNet Core 5, EntityFramework e Identity da Microsoft
 
-## Passos para concluir a etapa 00-WebAPI-Base
+## Passos para concluir a etapa 00-WebAPI-Básica
 1) Instalacao do Ambiente:
 - Instalar Visual Studio
 - Instalar o dotnet core 5

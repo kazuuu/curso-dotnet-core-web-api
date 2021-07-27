@@ -61,7 +61,7 @@ namespace MyWallWebAPI
         }
 
         [HttpPost("delete-post")]
-        public async Task<ActionResult> DeleteMensagem([FromBody] int id)
+        public async Task<ActionResult> DeletePost([FromBody] int id)
         {
             var item = await _context.Post.FindAsync(id);
             if (item == null)

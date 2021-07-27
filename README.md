@@ -70,7 +70,9 @@ Para isso, utilizaremos o Identity do Asp.Net Core que já nos fornece diversas 
 - Microsoft.AspNetCore.Identity.UI
 
 20) Crie o modelo do usuario com o nome de "ApplicationUser.cs" e faça com que ele herde de IdentityUser 
+
 21) Crie o modelo para a Role com o nome de "ApplicationRole.cs" e faça com que ele herde de IdentityRole
+
 22) Para o Identity trabalhar com o nosso Banco de Dados vamos alterar a nossa Context:
 - Agora esta classe irá herdar o IdentityDbContext e não mais DbContext.
 - Incluir os modelos ApplicationUser e ApplicationRole na classe MySQLContext
@@ -79,23 +81,31 @@ Para isso, utilizaremos o Identity do Asp.Net Core que já nos fornece diversas 
 - No Nugget Package Console digitar: Add-Migration Authentication 
 - Em seguita, digite o seguinte para aplicar a nova migration no Banco de Dados: Update-Database 
 
-24) Implementando o JWT 
-- Adicione algumas informações do JWT no JSON do arquivo appsettings.json
-- Chamaremos toda parte de autenticação como Security e colocaremos na camada Infrastructure. Então vamos criar o seguinte diretorio:
-- \Infrastructure\Config\Security\
-- Dentro da pasta Security, vamos colocar as classes de autenticação que eu deixei prepara para vocês no repositório do git.
--- "CustomClaimTypes.cs"
--- "JwtSecurityKey.cs" 
--- "TokenJWT.cs" 
--- "TokenJWTBuilder"
+24) Adicione as informações do JWT no JSON do arquivo appsettings.json
 
-Vamos configurar o Security para ser iniciado no Startup.cs 
+25) Colocaremos todas as classes customizadas do Identity na camada Config dentro de Infrastructure. Então vamos criar o seguinte diretorio:
+- \Infrastructure\Config\Identity\
+
+26) Dentro da pasta Identity colocaremos as classes que eu deixei preparado para vocês no repositório do git.
+- "CustomClaimTypes.cs"
+- "JwtSecurityKey.cs" 
+- "TokenJWT.cs" 
+- "TokenJWTBuilder"
+
+27) Configure o Security para ser iniciado no Startup.cs 
 - Authentication 
 - JwtBearer 
 - app.UseAuthentication(); (Atencao, este precisa estar antes do "app.UseAuthorization();")
 
-25) Criando Sign In e Sign Up
-- Criar repositorio do usuario. UserRepository
+25) Agora vamos criar a classe UserRepository.cs que irá interagir com os dados do usuário no banco de dados.
+
+25) Crie a classe UserService.cs que adicionará as funcionalidades do usuário como Cadastrar e Login.
+
+26) Crie a classe UserController.cs para rotearmos as requisições http referentes ao usuário para as respectivas funções da Service.
+
+28) Para finalizar basta testar todas as funções sem autenticação e com autentição.
+
+
 - Criar a service do usuario. UserService
 - Criar os DTOs, SignUpDTO para recebermos os dados de cadastro, e LoginDTO para login do usuario e para o retorno do access token vamos criar um outro DTO. SsoDTO c. Criar a controller do usuario, UserController
 

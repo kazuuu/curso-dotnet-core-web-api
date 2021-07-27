@@ -92,33 +92,31 @@ Para isso, utilizaremos o Identity do Asp.Net Core que já nos fornece diversas 
 - "TokenJWT.cs" 
 - "TokenJWTBuilder"
 
-27) Configure o Security para ser iniciado no Startup.cs 
+27) Configure o Identity para ser iniciado no Startup.cs 
 - Authentication 
 - JwtBearer 
 - app.UseAuthentication(); (Atencao, este precisa estar antes do "app.UseAuthorization();")
 
-25) Agora vamos criar a classe UserRepository.cs que irá interagir com os dados do usuário no banco de dados.
+28) Agora vamos criar a classe UserRepository.cs que irá interagir com os dados do usuário no banco de dados.
 
-25) Crie a classe UserService.cs que adicionará as funcionalidades do usuário como Cadastrar e Login.
+29) Para recebermos e retornarmos as informações do Login e Cadastra utilizaremos classes do tipo DTO (Data Transfer Object), que como o próprio nome diz, são classes apenas para transferência de informações. É como se fosse um modelo porém ele não é persistido em Banco de Dados. Apenas uma classe simples. 
 
-26) Crie a classe UserController.cs para rotearmos as requisições http referentes ao usuário para as respectivas funções da Service.
+Estes arquivos DTOs ficarão dentro do seguinte diretorio:
 
-28) Para finalizar basta testar todas as funções sem autenticação e com autentição.
+Dentro do diretório Modelsa Domain insira uma nova pasta chamada "DTOs" e crie as 3 classes a seguir: i. "LoginDto.cs" ii. "RegisterDto.cs" iii. "SsoDto.cs" b. Faça os passos do 15 até o 17 novamente, trocando o nome de Área para User. c. 
+- \Domain\Models\DTOs\SignInDTO.cs: Através desta classe receberemos o Username e Password para autenticação
+- \Domain\Models\DTOs\SignUpDTO.cs: Através desta classe receberemos todos os dados necessário para um novo cadastro
+- \Domain\Models\DTOs\SsoDTO.cs: Através desta classe retornaremos o Access Token e os dados do usuário que acabou de fazer o processo de Sign In
+
+30) Apesar de estarmos trabalhando com o modelo de usuário, em nosso domínio utilizarei a palabra Auth para tudo referente a autenticação de usuário. Então Criaremos a classe AuthService.cs que adicionará as funcionalidades do usuário como Cadastrar e Login.
+
+31) Crie a classe AuthController.cs para rotearmos as requisições http referentes ao usuário para as respectivas funções da Service.
+
+32) Adicione o decorador Authorize nas classes de Controllers, e em cada função que quisermos deixar o acesso liberado sem autenticação colocaremos o decorador AllowAnonymous.
 
 
-- Criar a service do usuario. UserService
-- Criar os DTOs, SignUpDTO para recebermos os dados de cadastro, e LoginDTO para login do usuario e para o retorno do access token vamos criar um outro DTO. SsoDTO c. Criar a controller do usuario, UserController
+32) Para finalizar basta testar todas as funções sem autenticação e com autentição.
 
-a. Dentro da Domain insira uma nova pasta chamada "DTOs" e crie as 3 classes a seguir: i. "LoginDto.cs" ii. "RegisterDto.cs" iii. "SsoDto.cs" b. Faça os passos do 15 até o 17 novamente, trocando o nome de Área para User. c. Configure o Identity na Startup.cs
-
-Adicione a AuthController.
-
-Adicione o Authorize na MensagemController
-
-Adicionar um método na Service responsável por adicionar um usuário a uma área e implementa-lo na Controller
-
-Testar com o Postman.
-
-Fontes para consultas:
+# Fontes para consultas:
 - Jose Carlos Macoratti: https://www.youtube.com/watch?v=L1bJUKZV0b0
 - Domain Driven Design: https://www.devmedia.com.br/introducao-ao-ddd-em-net/32724

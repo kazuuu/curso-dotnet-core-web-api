@@ -97,9 +97,11 @@ Para isso, utilizaremos o Identity do Asp.Net Core que já nos fornece diversas 
 - JwtBearer 
 - app.UseAuthentication(); (Atencao, este precisa estar antes do "app.UseAuthorization();")
 
-28) Agora vamos criar a classe UserRepository.cs que irá interagir com os dados do usuário no banco de dados.
+29) Vamos testar se a configuração do Identity está ok. Para isso, decore a PostController.cs com o decorador [Authorize] para proteger todas rotas da controller. Rode a aplicação e faça uma requisição em qualquer rota do Controller para testar.
 
-29) Para recebermos e retornarmos as informações do Login e Cadastra utilizaremos classes do tipo DTO (Data Transfer Object), que como o próprio nome diz, são classes apenas para transferência de informações. É como se fosse um modelo porém ele não é persistido em Banco de Dados. Apenas uma classe simples. 
+30) Agora vamos criar a classe UserRepository.cs que irá interagir com os dados do usuário no banco de dados.
+
+31) Para recebermos e retornarmos as informações do Login e Cadastra utilizaremos classes do tipo DTO (Data Transfer Object), que como o próprio nome diz, são classes apenas para transferência de informações. É como se fosse um modelo porém ele não é persistido em Banco de Dados. Apenas uma classe simples. 
 
 Estes arquivos DTOs ficarão dentro do seguinte diretorio:
 
@@ -108,14 +110,13 @@ Dentro do diretório Modelsa Domain insira uma nova pasta chamada "DTOs" e crie 
 - \Domain\Models\DTOs\SignUpDTO.cs: Através desta classe receberemos todos os dados necessário para um novo cadastro
 - \Domain\Models\DTOs\SsoDTO.cs: Através desta classe retornaremos o Access Token e os dados do usuário que acabou de fazer o processo de Sign In
 
-30) Apesar de estarmos trabalhando com o modelo de usuário, em nosso domínio utilizarei a palabra Auth para tudo referente a autenticação de usuário. Então Criaremos a classe AuthService.cs que adicionará as funcionalidades do usuário como Cadastrar e Login.
+32) Apesar de estarmos trabalhando com o modelo de usuário, em nosso domínio utilizarei a palabra Auth para tudo referente a autenticação de usuário. Então Criaremos a classe AuthService.cs que adicionará as funcionalidades do usuário como Cadastrar e Login.
 
-31) Crie a classe AuthController.cs para rotearmos as requisições http referentes ao usuário para as respectivas funções da Service.
+33) Crie a classe AuthController.cs para rotearmos as requisições http referentes ao usuário para as respectivas funções da Service.
 
-32) Adicione o decorador Authorize nas classes de Controllers, e em cada função que quisermos deixar o acesso liberado sem autenticação colocaremos o decorador AllowAnonymous.
+34) Adicione o decorador Authorize nas classes de Controllers, e em cada função que quisermos deixar o acesso liberado sem autenticação colocaremos o decorador AllowAnonymous.
 
-
-32) Para finalizar basta testar todas as funções sem autenticação e com autentição.
+35) Para finalizar basta testar todas as funções sem autenticação e com autentição.
 
 # Fontes para consultas:
 - Jose Carlos Macoratti: https://www.youtube.com/watch?v=L1bJUKZV0b0

@@ -13,7 +13,7 @@ namespace MyWallWebAPI
         public MySQLContext(DbContextOptions<MySQLContext> options) : base(options)
         {
         }
-
+        
         public DbSet<Post> Post { get; set; }
         public DbSet<ApplicationUser> User { get; set; }
         public DbSet<ApplicationRole> Role { get; set; }

@@ -77,6 +77,9 @@ namespace MyWallWebAPI
             services.AddScoped<PostRepository>();
             services.AddScoped<PostService>();
 
+            services.AddScoped<UserRepository>();
+            services.AddScoped<AuthService>();
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "MyWallWebAPI", Version = "v1" });

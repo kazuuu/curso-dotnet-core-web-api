@@ -5,7 +5,7 @@ Projeto desenvolvido no curso para desenvolver uma Rest API com DotNet Core 5, E
 ## Passos para concluir a etapa 00-WebAPI-Base
 1) Instalacao do Ambiente:
 - Instalar o Git
-+ Fazer o clone deste repositório
+-- Fazer o clone deste repositório
 - Instalar Visual Studio Code
 - Visual Studio Community
 - Instalar o Dotnet core 5

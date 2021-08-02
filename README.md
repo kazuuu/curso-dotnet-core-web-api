@@ -7,7 +7,7 @@ Projeto desenvolvido no curso para desenvolver uma Rest API com DotNet Core 5, E
 - Instalar o Git
   * Fazer o clone deste repositório
 - Instalar Visual Studio Code
-- Visual Studio Community
+- Instalar Visual Studio Community
 - Instalar o Dotnet core 5
 - Instalar MySQL Community Server
 - Instalar MySQL Client - WorkBench

@@ -10,6 +10,8 @@ Projeto desenvolvido no curso para desenvolver uma Rest API com DotNet Core 5, E
 - Instalar MySQL Client - WorkBench
 - Instalar o Postman
 - Instalar o Git
+- Criar o diretorio: \Coding
+    * Colocar como Atalho (shortcut)
 
 2) No Visual Studio criar um projeto Asp.Net Core Web Application com o template: Asp.Net Core Web API chamado: MyWallWebAPI
 

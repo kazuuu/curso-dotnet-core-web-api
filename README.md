@@ -2,7 +2,7 @@
 # curso-dotnet-core-web-api
 Projeto desenvolvido no curso para desenvolver uma Rest API com DotNet Core 5, EntityFramework e Identity da Microsoft
 
-## Passos para concluir a etapa 00-WebAPI-Básica
+## Passos para concluir a etapa 01-WebAPI-Basica
 1) Instalacao do Ambiente:
 - Instalar o Git
   * Fazer o clone deste repositório
@@ -43,7 +43,7 @@ Projeto desenvolvido no curso para desenvolver uma Rest API com DotNet Core 5, E
 
 11) Testar com o Postman.
 
-## Passos para concluir a etapa 01-Design-Pattern
+## Passos para concluir a etapa 02-Design-Pattern
 Organizar o código utilizando um Design Pattern inspirado no DDD - Domain Driven Design
 
 12) Vamos dividir nossa aplicação em Camadas principais:
@@ -68,7 +68,7 @@ Organizar o código utilizando um Design Pattern inspirado no DDD - Domain Drive
 
 18) E como sempre, vamos rodar e testar nossa aplicação para garantir que deu tudo certo nossa reestruturacao.
 
-## Passos para concluir a etapa 02-Authentication
+## Passos para concluir a etapa 03-Authentication
 Agora vamos Implementar o sistema de usuarios e autenticação.
 Para isso, utilizaremos o Identity do Asp.Net Core que já nos fornece diversas funcionalidades como Login do usuario, Password Recover, Two factors authentication, JWT entre outras. Porém, neste aprendizado implementaremos o básico que será a atutenticação do usuário com Login e Senha.
 

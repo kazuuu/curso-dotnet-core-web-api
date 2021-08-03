@@ -51,17 +51,20 @@ Organizar o código utilizando um Design Pattern inspirado no DDD - Domain Drive
 - "Infrastructure": É a camada de mais baixo nível, responsável por prover serviços como persistência de dados, envio de email, ou seja, dar o suporte tecnológico para as demais camadas;
 - "Application": Coordena as atividades da aplicação, porém, não contém regras de negócio.
 
-14)	Começaremos a trabalhar com os modelos de dados que fazem parte do Domínio, ou seja, da regra de negócio. Vamos mover a classe Post.cs para o seguinte diretório:
+13)	Começaremos a trabalhar com os modelos de dados que fazem parte do Domínio, ou seja, da regra de negócio. Vamos mover a classe Post.cs para o seguinte diretório:
 - \Domain\Models\Post.cs
 
-15) Em seguida, vamos criar a classe PostRepository.cs que tratará a persistencia de dados que faz parte da camada de Infrastructure. Esta classe ficará no seguinte diretório:
+14) Em seguida, vamos criar a classe PostRepository.cs que tratará a persistencia de dados que faz parte da camada de Infrastructure. Esta classe ficará no seguinte diretório:
 - \Infrastructure\Data\Repositories\PostRepository.cs
 
-16) Agora, com os modelos e as interações de dados feitos, vamos aplicar as regras de negócio em uma classe chamada PostService.cs que ficará em:
+15) Agora, com os modelos e as interações de dados feitos, vamos aplicar as regras de negócio em uma classe chamada PostService.cs que ficará em:
 - \Domain\Services\PostService.cs
 
-17) E para finalizar, montaremos a ponte da interface com o usuário que serão as Controllers na camada Application. Criaremos a classe PostController.cs
+16) Vamos colocar as controllers na camada Application, pois ela serve como uma ponte entre o usuário (as requisições) e as funções na service.
 - \Application\Controllers\PostController.cs
+
+17) E para finalizar, vou criar um diretorio para colocarmos nossos contextos dentro da camada de Dados que fina na Infrastructure
+- \Infrastructure\Data\Contexts\MySQLContext.cs
 
 18) E como sempre, vamos rodar e testar nossa aplicação para garantir que deu tudo certo nossa reestruturacao.
 

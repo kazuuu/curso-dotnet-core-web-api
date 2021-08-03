@@ -4,14 +4,17 @@ Projeto desenvolvido no curso para desenvolver uma Rest API com DotNet Core 5, E
 
 ## Passos para concluir a etapa 00-WebAPI-Básica
 1) Instalacao do Ambiente:
-- Instalar Visual Studio
-- Instalar o dotnet core 5
+- Instalar o Git
+  * Fazer o clone deste repositório
+  * Criar o diretório \Coding dentro do diretório do seu usuário
+  * Configurar este diretório para ficar no Acesso Rápido do file explorer
+- Instalar Visual Studio Code
+- Instalar Visual Studio Community
+- Instalar o .Net Core 5
+  * .Net versão 5.0.7 com a SDK 5.0.301
 - Instalar MySQL Community Server
 - Instalar MySQL Client - WorkBench
 - Instalar o Postman
-- Instalar o Git
-- Criar o diretorio: \Coding
-    * Colocar como Atalho (shortcut)
 
 2) No Visual Studio criar um projeto Asp.Net Core Web Application com o template: Asp.Net Core Web API chamado: MyWallWebAPI
 
@@ -37,6 +40,7 @@ Projeto desenvolvido no curso para desenvolver uma Rest API com DotNet Core 5, E
 - Update-Database
 
 10) Criar a classe PostController com as rotas CRUD do modelo Post.
+
 11) Testar com o Postman.
 
 ## Passos para concluir a etapa 01-Design-Pattern

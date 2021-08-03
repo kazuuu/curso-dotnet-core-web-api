@@ -147,6 +147,98 @@
 					"response": []
 				}
 			]
+		},
+		{
+			"name": "AuthController",
+			"item": [
+				{
+					"name": "Sign Up",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"teste1\",\r\n    \"email\": \"teste1@teste.com.br\",\r\n    \"password\": \"123\",\r\n    \"passwordConfirm\": \"123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:44369/api/auth/sign-up",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44369",
+							"path": [
+								"api",
+								"auth",
+								"sign-up"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Sign In",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"teste1\",\r\n    \"password\": \"Ab!123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:44369/api/auth/sign-in",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44369",
+							"path": [
+								"api",
+								"auth",
+								"sign-in"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Current User",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer  eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoidGVzdGUxIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbmFtZWlkZW50aWZpZXIiOiI5YWMwNDQ5OC01MDg5LTQ3ODctYTgwOC1jODkyZjEyYTBiMDYiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJ0ZXN0ZTFAdGVzdGUuY29tLmJyIiwianRpIjoiZTI5NmQzZWYtMzA3NS00ODBmLWJkYTMtY2U3NmY5NjdkNmE2IiwiZXhwIjoxNjI3NTk0NDQ1LCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjQ0MzY5IiwiYXVkIjoiaHR0cDovL2xvY2FsaG9zdDo0MjAwIn0.sC1s33h-Om2lbGW9n5VHQ9NUcCtoQgYoLUl-HK8Ez9A",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://localhost:44369/api/auth/get-current-user",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44369",
+							"path": [
+								"api",
+								"auth",
+								"get-current-user"
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		}
 	]
 }

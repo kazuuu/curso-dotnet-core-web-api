@@ -2,7 +2,7 @@
 # curso-dotnet-core-web-api
 Projeto desenvolvido no curso para desenvolver uma Rest API com DotNet Core 5, EntityFramework e Identity da Microsoft
 
-## Passos para concluir a etapa 00-WebAPI-Básica
+## Passos para concluir a etapa 01-WebAPI-Basica
 1) Instalacao do Ambiente:
 - Instalar o Git
   * Fazer o clone deste repositório
@@ -43,7 +43,7 @@ Projeto desenvolvido no curso para desenvolver uma Rest API com DotNet Core 5, E
 
 11) Testar com o Postman.
 
-## Passos para concluir a etapa 01-Design-Pattern
+## Passos para concluir a etapa 02-Design-Pattern
 Organizar o código utilizando um Design Pattern inspirado no DDD - Domain Driven Design
 
 12) Vamos dividir nossa aplicação em Camadas principais:

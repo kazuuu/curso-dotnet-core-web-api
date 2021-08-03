@@ -2,13 +2,16 @@
 # curso-dotnet-core-web-api
 Projeto desenvolvido no curso para desenvolver uma Rest API com DotNet Core 5, EntityFramework e Identity da Microsoft
 
-## Passos para concluir a etapa 00-WebAPI-Base
+## Passos para concluir a etapa 00-WebAPI-Basico
 1) Instalacao do Ambiente:
 - Instalar o Git
   * Fazer o clone deste repositório
+  * Criar o diretório \Coding dentro do diretório do seu usuário
+  * Configurar este diretório para ficar no Acesso Rápido do file explorer
 - Instalar Visual Studio Code
 - Instalar Visual Studio Community
-- Instalar o Dotnet core 5
+- Instalar o .Net Core 5
+  * .Net versão 5.0.7 com a SDK 5.0.301
 - Instalar MySQL Community Server
 - Instalar MySQL Client - WorkBench
 - Instalar o Postman

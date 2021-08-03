@@ -39,6 +39,7 @@ Projeto desenvolvido no curso para desenvolver uma Rest API com DotNet Core 5, E
 - Update-Database
 
 10) Criar a classe PostController com as rotas CRUD do modelo Post.
+
 11) Testar com o Postman.
 
 Fontes para consultas:

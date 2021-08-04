@@ -10,13 +10,13 @@ namespace MyWallWebAPI.Domain.Services
     public class PostService
     {
         private readonly PostRepository _postRepository;
-
         private readonly AuthService _authService;
 
         public PostService(PostRepository postRepository, AuthService authService)
         {
             _authService = authService;
             _postRepository = postRepository;
+            _authService = authService;
         }
 
         public async Task<List<Post>> ListPosts()
@@ -30,7 +30,7 @@ namespace MyWallWebAPI.Domain.Services
         {
             ApplicationUser currentUser = await _authService.GetCurrentUser();
 
-            List<Post> list = await _postRepository.ListPostsByUserId(currentUser.Id);
+            List<Post> list = await _postRepository.ListPostsByApplicationUserId(currentUser.Id);
 
             return list;
         }
@@ -53,8 +53,8 @@ namespace MyWallWebAPI.Domain.Services
 
             novoPost.ApplicationUserId = currentUser.Id;
             novoPost.Data = DateTime.Now;
-            novoPost.Conteudo = post.Conteudo;
             novoPost.Titulo = post.Titulo;
+            novoPost.Conteudo = post.Conteudo;
 
             novoPost = await _postRepository.CreatePost(novoPost);
 
@@ -78,7 +78,7 @@ namespace MyWallWebAPI.Domain.Services
             return await _postRepository.UpdatePost(findPost);
         }
 
-        public async Task<bool> DeletePost(int postId)
+        public async Task<bool> DeletePostAsync(int postId)
         {
             ApplicationUser currentUser = await _authService.GetCurrentUser();
 
@@ -89,7 +89,7 @@ namespace MyWallWebAPI.Domain.Services
             if (!findPost.ApplicationUserId.Equals(currentUser.Id))
                 throw new ArgumentException("Sem permissão.");
 
-            await _postRepository.DeletePost(postId);
+            await _postRepository.DeletePostAsync(postId);
 
             return true;
         }

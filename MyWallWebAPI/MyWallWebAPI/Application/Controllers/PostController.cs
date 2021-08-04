@@ -35,7 +35,6 @@ namespace MyWallWebAPI
             }
         }
 
-
         [HttpGet("list-meus-posts")]
         public async Task<ActionResult> ListMeusPosts()
         {
@@ -50,6 +49,7 @@ namespace MyWallWebAPI
                 return BadRequest(ex.Message);
             }
         }
+
         [HttpGet("get-post")]
         public async Task<ActionResult> GetPost([FromQuery] int postId)
         {
@@ -98,7 +98,7 @@ namespace MyWallWebAPI
         {
             try
             {
-                return Ok(await _postService.DeletePost(postId));
+                return Ok(await _postService.DeletePostAsync(postId));
             }
             catch (Exception ex)
             {

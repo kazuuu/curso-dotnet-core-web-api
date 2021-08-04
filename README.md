@@ -127,7 +127,7 @@ Dentro do diretório Models Domain insira uma nova pasta chamada "DTOs" e crie a
 
 34) Para finalizar basta testar todas as funções sem autenticação e com autentição.
 
-## Passos para concluir a etapa 04-One-to-Many
+## Passos para concluir a etapa 04-One-To-Many
 Agora que temos todas features básicas de uma Web API, podemos focar na regra de negócio. Nesta etapa vamos criar as funcionalidades (podemos chamar essas funcionalidades de User Stories). Cada funcionalidade vamos trabalhar os Repositories se necessário, as Services e a Controller que é a ponte da interface do usuário.
 
 35) Configurar relacionamento entre as entidades User e Post. Um User possui vários Posts (One to Many), e um Post possui um User (One to One)

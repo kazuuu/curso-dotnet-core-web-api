@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace MyWallWebAPI.Infrastructure.Data.Repositories
 {
@@ -15,12 +16,19 @@ namespace MyWallWebAPI.Infrastructure.Data.Repositories
 
         public async Task<List<Post>> ListPosts()
         {
-            List<Post> list = await _context.Post.ToListAsync();
+            List<Post> list = await _context.Post.OrderBy(p => p.Data).Include(p => p.ApplicationUser).ToListAsync();
 
             return list;
         }
 
-        public async Task<Post> GetPost(int postId)
+        public async Task<List<Post>> ListPostsByUserId(string applicationUserId)
+        {
+            List<Post> list = await _context.Post.Where(p => p.ApplicationUserId.Equals(applicationUserId)).OrderBy(p => p.Data).Include(p => p.ApplicationUser).ToListAsync();
+
+            return list;
+        }
+
+        public async Task<Post> GetPostById(int postId)
         {
             Post post = await _context.Post.FindAsync(postId);
 

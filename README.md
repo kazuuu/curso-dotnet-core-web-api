@@ -131,14 +131,35 @@ Dentro do diretório Models Domain insira uma nova pasta chamada "DTOs" e crie a
 Agora que temos todas features básicas de uma Web API, podemos focar na regra de negócio. Nesta etapa vamos criar as funcionalidades (podemos chamar essas funcionalidades de User Stories). Cada funcionalidade vamos trabalhar os Repositories se necessário, as Services e a Controller que é a ponte da interface do usuário.
 
 35) Configurar relacionamento entre as entidades User e Post. Um User possui vários Posts (One to Many), e um Post possui um User (One to One)
+- Colocar o List<Post> na entidade ApplicationUser
+- Colocar a Foreign Key applicationUser e a referencia ApplicationUser na entidade Post
+- Criar e aplicar a migration no Banco de Dados.
+  * Add-Migration UserPostOneToMany
+  * Update-Database
+- Caso você precise refazer a migration, você pode retroceder a ultima migration com os seguintes comandos?
+  * Update-Database Nome_da_Migration_que_voce_quer_ir
+  * Remove-Migration
 
-36) Novo Post
+36) Teste a aplicação
 
-37) Listar Meus Posts 
+37) Novo Post: 
+- \novo-post
 
-38) List Todos Posts
+38) Listar Todos Posts incluindo User e ordenado por data e hora
+- \list-posts
 
-39) Remover Post
+39) Listar Meus Posts
+- \list-meus-posts
+
+40) Get Post
+- \get-post
+
+41) Update Post
+- \update-post
+
+42) Delete Post
+- \delete-post
+
 
 # Fontes para consultas:
 - Jose Carlos Macoratti: https://www.youtube.com/watch?v=L1bJUKZV0b0

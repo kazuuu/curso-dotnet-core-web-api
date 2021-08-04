@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "e1d7fae9-67fa-413a-b742-324f2d0ea0fe",
+		"_postman_id": "94d4ad69-527c-4031-b566-2d905a16a971",
 		"name": "MyWallWebAPI",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -12,7 +12,13 @@
 					"name": "List Posts",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoidGVzdGUxIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbmFtZWlkZW50aWZpZXIiOiI5YWMwNDQ5OC01MDg5LTQ3ODctYTgwOC1jODkyZjEyYTBiMDYiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJ0ZXN0ZTFAdGVzdGUuY29tLmJyIiwianRpIjoiYjg4ZjZlYmEtNGVhNS00M2M2LTk2NjAtNTc0YjFkMzFlOWUwIiwiZXhwIjoxNjI4MDM3MTEyLCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjQ0MzY5IiwiYXVkIjoiaHR0cDovL2xvY2FsaG9zdDo0MjAwIn0.gRrv6uxnJwJlYxaUlS1lLqY4qL9kvcctwqR-PCZV2JQ",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "https://localhost:44369/api/post/list-posts",
 							"protocol": "https",
@@ -30,12 +36,45 @@
 					"response": []
 				},
 				{
+					"name": "List Meus Posts",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoidGVzdGUyIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbmFtZWlkZW50aWZpZXIiOiIwODJhMTYyYi1kNWI1LTQ2ZDAtYTkyYy02MDM2NzQ1NzNhN2IiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJ0ZXN0ZTJAdGVzdGUuY29tLmJyIiwianRpIjoiOGZiNTAwYjItNTMyOC00MWJjLWFlYWUtNzQyMmM3NThiMDIxIiwiZXhwIjoxNjI4MDQ2Mjk0LCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjQ0MzY5IiwiYXVkIjoiaHR0cDovL2xvY2FsaG9zdDo0MjAwIn0.x8qoXKq1ye2q9WDUkYEG_MFyZEpDypJcIJr9Pe0U7ag",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://localhost:44369/api/post/list-meus-posts",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44369",
+							"path": [
+								"api",
+								"post",
+								"list-meus-posts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "Get Post",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoidGVzdGUyIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbmFtZWlkZW50aWZpZXIiOiIwODJhMTYyYi1kNWI1LTQ2ZDAtYTkyYy02MDM2NzQ1NzNhN2IiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJ0ZXN0ZTJAdGVzdGUuY29tLmJyIiwianRpIjoiOGZiNTAwYjItNTMyOC00MWJjLWFlYWUtNzQyMmM3NThiMDIxIiwiZXhwIjoxNjI4MDQ2Mjk0LCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjQ0MzY5IiwiYXVkIjoiaHR0cDovL2xvY2FsaG9zdDo0MjAwIn0.x8qoXKq1ye2q9WDUkYEG_MFyZEpDypJcIJr9Pe0U7ag",
+								"type": "text"
+							}
+						],
 						"url": {
-							"raw": "https://localhost:44369/api/post/get-post?postId=1",
+							"raw": "https://localhost:44369/api/post/get-post?postId=5",
 							"protocol": "https",
 							"host": [
 								"localhost"
@@ -49,7 +88,7 @@
 							"query": [
 								{
 									"key": "postId",
-									"value": "1"
+									"value": "5"
 								}
 							]
 						}
@@ -57,37 +96,7 @@
 					"response": []
 				},
 				{
-					"name": "New Post",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"titulo\": \"Novo Post3\",\r\n    \"conteudo\": \"Ola mundo.\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "https://localhost:44369/api/post/create-post",
-							"protocol": "https",
-							"host": [
-								"localhost"
-							],
-							"port": "44369",
-							"path": [
-								"api",
-								"post",
-								"create-post"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Update Post",
+					"name": "Novo Post",
 					"request": {
 						"method": "POST",
 						"header": [],
@@ -101,7 +110,7 @@
 							}
 						},
 						"url": {
-							"raw": "https://localhost:44369/api/post/new-post",
+							"raw": "https://localhost:44369/api/post/novo-post",
 							"protocol": "https",
 							"host": [
 								"localhost"
@@ -110,7 +119,37 @@
 							"path": [
 								"api",
 								"post",
-								"new-post"
+								"novo-post"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Post",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 2,\r\n    \"titulo\": \"Novo Post\",\r\n    \"conteudo\": \"Ola mundo.\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:44369/api/post/update-post",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44369",
+							"path": [
+								"api",
+								"post",
+								"update-post"
 							]
 						}
 					},
@@ -218,7 +257,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer  eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoidGVzdGUxIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbmFtZWlkZW50aWZpZXIiOiI5YWMwNDQ5OC01MDg5LTQ3ODctYTgwOC1jODkyZjEyYTBiMDYiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJ0ZXN0ZTFAdGVzdGUuY29tLmJyIiwianRpIjoiZTI5NmQzZWYtMzA3NS00ODBmLWJkYTMtY2U3NmY5NjdkNmE2IiwiZXhwIjoxNjI3NTk0NDQ1LCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjQ0MzY5IiwiYXVkIjoiaHR0cDovL2xvY2FsaG9zdDo0MjAwIn0.sC1s33h-Om2lbGW9n5VHQ9NUcCtoQgYoLUl-HK8Ez9A",
+								"value": "Bearer  eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoidGVzdGUyIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbmFtZWlkZW50aWZpZXIiOiIwODJhMTYyYi1kNWI1LTQ2ZDAtYTkyYy02MDM2NzQ1NzNhN2IiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJ0ZXN0ZTJAdGVzdGUuY29tLmJyIiwianRpIjoiOGZiNTAwYjItNTMyOC00MWJjLWFlYWUtNzQyMmM3NThiMDIxIiwiZXhwIjoxNjI4MDQ2Mjk0LCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjQ0MzY5IiwiYXVkIjoiaHR0cDovL2xvY2FsaG9zdDo0MjAwIn0.x8qoXKq1ye2q9WDUkYEG_MFyZEpDypJcIJr9Pe0U7ag",
 								"type": "text"
 							}
 						],

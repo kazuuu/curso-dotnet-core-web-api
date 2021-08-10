@@ -53,6 +53,7 @@ Organizar o código utilizando um Design Pattern inspirado no DDD - Domain Drive
 
 13)	Começaremos a trabalhar com os modelos de dados que fazem parte do Domínio, ou seja, da regra de negócio. Vamos mover a classe Post.cs para o seguinte diretório:
 - \Domain\Models\Post.cs
+- Lembrar de atualizar/renomear os Namespaces também.
 
 14) Em seguida, vamos criar a classe PostRepository.cs que tratará a persistencia de dados que faz parte da camada de Infrastructure. Esta classe ficará no seguinte diretório:
 - \Infrastructure\Data\Repositories\PostRepository.cs
@@ -62,9 +63,11 @@ Organizar o código utilizando um Design Pattern inspirado no DDD - Domain Drive
 
 16) Vamos colocar as controllers na camada Application, pois ela serve como uma ponte entre o usuário (as requisições) e as funções na service.
 - \Application\Controllers\PostController.cs
+- Lembrar de atualizar/renomear os Namespaces também.
 
 17) E para finalizar, vou criar um diretorio para colocarmos nossos contextos dentro da camada de Dados que fina na Infrastructure
 - \Infrastructure\Data\Contexts\MySQLContext.cs
+- Lembrar de atualizar/renomear os Namespaces também.
 
 18) E como sempre, vamos rodar e testar nossa aplicação para garantir que deu tudo certo nossa reestruturacao.
 
@@ -160,6 +163,24 @@ Agora que temos todas features básicas de uma Web API, podemos focar na regra d
 42) Delete Post
 - \delete-post
 
+## Passos para concluir a etapa 05-Design-Pattern-2
+Nesta etapa não iremos alterar o comportamento ou funcionamento da aplicação.
+Apenas iremos reorganizar nosso código para aplicar novos princípios no Design Pattern como dependency inversion principle e open-closed principle. 
+
+43) Dividir o diretorio de Services em dois diretorios:
+- \Services\Interfaces
+- \Services\Implementations
+
+44) Mover todas as classes das services para o diretório \Services\Implementations
+- Lembrar de atualizar/renomear os Namespaces também.
+
+45) Dentro do diretório de Interfaces criar as respectivas Interfaces de cada Service.
+
+46) Linkar as Interfaces com as Implementações
+
+47) Alterar todas as Injeções de Dependências para injetar a Interface.
+
+48) Fim
 
 # Fontes para consultas:
 - Jose Carlos Macoratti: https://www.youtube.com/watch?v=L1bJUKZV0b0

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Linq;
+using MyWallWebAPI.Domain.Models;
+using MyWallWebAPI.Infrastructure.Data.Contexts;
 
 namespace MyWallWebAPI.Infrastructure.Data.Repositories
 {

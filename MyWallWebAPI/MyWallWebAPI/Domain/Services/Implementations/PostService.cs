@@ -1,18 +1,19 @@
 ﻿using MyWallWebAPI.Domain.Models;
+using MyWallWebAPI.Domain.Services.Interfaces;
 using MyWallWebAPI.Infrastructure.Data.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace MyWallWebAPI.Domain.Services
+namespace MyWallWebAPI.Domain.Services.Implementations
 {
-    public class PostService
+    public class PostService : IPostService
     {
         private readonly PostRepository _postRepository;
-        private readonly AuthService _authService;
+        private readonly IAuthService _authService;
 
-        public PostService(PostRepository postRepository, AuthService authService)
+        public PostService(PostRepository postRepository, IAuthService authService)
         {
             _authService = authService;
             _postRepository = postRepository;

@@ -164,7 +164,7 @@ Agora que temos todas features básicas de uma Web API, podemos focar na regra d
 - \delete-post
 
 ## Passos para concluir a etapa 05-Design-Pattern-2
-Nesta etapa não iremos alterar o comportamento ou funcionamento da aplicação.
+Nesta etapa não iremos alterar o comportamento ou funcionalidade da aplicação.
 Apenas iremos reorganizar nosso código para aplicar novos princípios no Design Pattern como dependency inversion principle e open-closed principle. 
 
 43) Dividir o diretorio de Services em dois diretorios:

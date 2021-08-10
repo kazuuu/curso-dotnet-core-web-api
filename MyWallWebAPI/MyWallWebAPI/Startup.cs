@@ -12,7 +12,9 @@ using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using MyWallWebAPI.Domain.Models;
-using MyWallWebAPI.Domain.Services;
+using MyWallWebAPI.Domain.Services.Implementations;
+using MyWallWebAPI.Domain.Services.Interfaces;
+using MyWallWebAPI.Infrastructure.Data.Contexts;
 using MyWallWebAPI.Infrastructure.Data.Repositories;
 using System;
 using System.Collections.Generic;
@@ -75,10 +77,10 @@ namespace MyWallWebAPI
             });
 
             services.AddScoped<PostRepository>();
-            services.AddScoped<PostService>();
+            services.AddScoped<IPostService, PostService>();
 
             services.AddScoped<UserRepository>();
-            services.AddScoped<AuthService>();
+            services.AddScoped<IAuthService, AuthService>();
 
             services.AddSwaggerGen(c =>
             {

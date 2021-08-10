@@ -1,8 +1,7 @@
-﻿using MyWallWebAPI.Domain.Models;
-using System;
+﻿using System;
 
 
-namespace MyWallWebAPI
+namespace MyWallWebAPI.Domain.Models
 {
     public class Post
     {

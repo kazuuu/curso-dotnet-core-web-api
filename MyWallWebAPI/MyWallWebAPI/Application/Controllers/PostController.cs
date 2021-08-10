@@ -1,21 +1,23 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using MyWallWebAPI.Domain.Services;
+using MyWallWebAPI.Domain.Models;
+using MyWallWebAPI.Domain.Services.Implementations;
+using MyWallWebAPI.Domain.Services.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace MyWallWebAPI
+namespace MyWallWebAPI.Application.Controllers
 {
     [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class PostController : ControllerBase
     {
-        private readonly PostService _postService;
+        private readonly IPostService _postService;
 
-        public PostController(PostService postService)
+        public PostController(IPostService postService)
         {
             _postService = postService;
         }

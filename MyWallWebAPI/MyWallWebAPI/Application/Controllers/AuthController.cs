@@ -3,21 +3,22 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MyWallWebAPI.Domain.Models;
 using MyWallWebAPI.Domain.Models.DTOs;
-using MyWallWebAPI.Domain.Services;
+using MyWallWebAPI.Domain.Services.Implementations;
+using MyWallWebAPI.Domain.Services.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace MyWallWebAPI
+namespace MyWallWebAPI.Application.Controllers
 {
     [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class AuthController : ControllerBase
     {
-        private readonly AuthService _authService;
+        private readonly IAuthService _authService;
 
-        public AuthController(AuthService authService)
+        public AuthController(IAuthService authService)
         {
             _authService = authService;
         }

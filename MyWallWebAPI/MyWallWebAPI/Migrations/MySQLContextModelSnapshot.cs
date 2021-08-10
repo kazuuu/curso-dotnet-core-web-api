@@ -3,7 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using MyWallWebAPI;
+using MyWallWebAPI.Infrastructure.Data.Contexts;
 
 namespace MyWallWebAPI.Migrations
 {
@@ -221,6 +221,9 @@ namespace MyWallWebAPI.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    b.Property<string>("ApplicationUserId")
+                        .HasColumnType("varchar(255)");
+
                     b.Property<string>("Conteudo")
                         .HasColumnType("longtext");
 
@@ -231,6 +234,8 @@ namespace MyWallWebAPI.Migrations
                         .HasColumnType("longtext");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ApplicationUserId");
 
                     b.ToTable("Post");
                 });
@@ -291,6 +296,20 @@ namespace MyWallWebAPI.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("MyWallWebAPI.Post", b =>
+                {
+                    b.HasOne("MyWallWebAPI.Domain.Models.ApplicationUser", "ApplicationUser")
+                        .WithMany("Posts")
+                        .HasForeignKey("ApplicationUserId");
+
+                    b.Navigation("ApplicationUser");
+                });
+
+            modelBuilder.Entity("MyWallWebAPI.Domain.Models.ApplicationUser", b =>
+                {
+                    b.Navigation("Posts");
                 });
 #pragma warning restore 612, 618
         }

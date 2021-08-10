@@ -2,7 +2,7 @@
 # curso-dotnet-core-web-api
 Projeto desenvolvido no curso para desenvolver uma Rest API com DotNet Core 5, EntityFramework e Identity da Microsoft
 
-## Passos para concluir a etapa 00-WebAPI-Básica
+## Passos para concluir a etapa 01-WebAPI-Basica
 1) Instalacao do Ambiente:
 - Instalar o Git
   * Fazer o clone deste repositório
@@ -43,7 +43,7 @@ Projeto desenvolvido no curso para desenvolver uma Rest API com DotNet Core 5, E
 
 11) Testar com o Postman.
 
-## Passos para concluir a etapa 01-Design-Pattern
+## Passos para concluir a etapa 02-Design-Pattern
 Organizar o código utilizando um Design Pattern inspirado no DDD - Domain Driven Design
 
 12) Vamos dividir nossa aplicação em Camadas principais:
@@ -53,6 +53,7 @@ Organizar o código utilizando um Design Pattern inspirado no DDD - Domain Drive
 
 13)	Começaremos a trabalhar com os modelos de dados que fazem parte do Domínio, ou seja, da regra de negócio. Vamos mover a classe Post.cs para o seguinte diretório:
 - \Domain\Models\Post.cs
+- Lembrar de atualizar/renomear os Namespaces também.
 
 14) Em seguida, vamos criar a classe PostRepository.cs que tratará a persistencia de dados que faz parte da camada de Infrastructure. Esta classe ficará no seguinte diretório:
 - \Infrastructure\Data\Repositories\PostRepository.cs
@@ -62,13 +63,15 @@ Organizar o código utilizando um Design Pattern inspirado no DDD - Domain Drive
 
 16) Vamos colocar as controllers na camada Application, pois ela serve como uma ponte entre o usuário (as requisições) e as funções na service.
 - \Application\Controllers\PostController.cs
+- Lembrar de atualizar/renomear os Namespaces também.
 
 17) E para finalizar, vou criar um diretorio para colocarmos nossos contextos dentro da camada de Dados que fina na Infrastructure
 - \Infrastructure\Data\Contexts\MySQLContext.cs
+- Lembrar de atualizar/renomear os Namespaces também.
 
 18) E como sempre, vamos rodar e testar nossa aplicação para garantir que deu tudo certo nossa reestruturacao.
 
-## Passos para concluir a etapa 02-Authentication
+## Passos para concluir a etapa 03-Authentication
 Agora vamos Implementar o sistema de usuarios e autenticação.
 Para isso, utilizaremos o Identity do Asp.Net Core que já nos fornece diversas funcionalidades como Login do usuario, Password Recover, Two factors authentication, JWT entre outras. Porém, neste aprendizado implementaremos o básico que será a atutenticação do usuário com Login e Senha.
 
@@ -126,6 +129,58 @@ Dentro do diretório Models Domain insira uma nova pasta chamada "DTOs" e crie a
 33) Adicione o decorador Authorize nas classes de Controllers, e em cada função que quisermos deixar o acesso liberado sem autenticação colocaremos o decorador AllowAnonymous.
 
 34) Para finalizar basta testar todas as funções sem autenticação e com autentição.
+
+## Passos para concluir a etapa 04-One-To-Many
+Agora que temos todas features básicas de uma Web API, podemos focar na regra de negócio. Nesta etapa vamos criar as funcionalidades (podemos chamar essas funcionalidades de User Stories). Cada funcionalidade vamos trabalhar os Repositories se necessário, as Services e a Controller que é a ponte da interface do usuário.
+
+35) Configurar relacionamento entre as entidades User e Post. Um User possui vários Posts (One to Many), e um Post possui um User (One to One)
+- Colocar o List<Post> na entidade ApplicationUser
+- Colocar a Foreign Key applicationUser e a referencia ApplicationUser na entidade Post
+- Criar e aplicar a migration no Banco de Dados.
+  * Add-Migration UserPostOneToMany
+  * Update-Database
+- Caso você precise refazer a migration, você pode retroceder a ultima migration com os seguintes comandos?
+  * Update-Database Nome_da_Migration_que_voce_quer_ir
+  * Remove-Migration
+
+36) Teste a aplicação
+
+37) Novo Post: 
+- \novo-post
+
+38) Listar Todos Posts incluindo User e ordenado por data e hora
+- \list-posts
+
+39) Listar Meus Posts
+- \list-meus-posts
+
+40) Get Post
+- \get-post
+
+41) Update Post
+- \update-post
+
+42) Delete Post
+- \delete-post
+
+## Passos para concluir a etapa 05-Design-Pattern-2
+Nesta etapa não iremos alterar o comportamento ou funcionalidade da aplicação.
+Apenas iremos reorganizar nosso código para aplicar novos princípios no Design Pattern como dependency inversion principle e open-closed principle. 
+
+43) Dividir o diretorio de Services em dois diretorios:
+- \Services\Interfaces
+- \Services\Implementations
+
+44) Mover todas as classes das services para o diretório \Services\Implementations
+- Lembrar de atualizar/renomear os Namespaces também.
+
+45) Dentro do diretório de Interfaces criar as respectivas Interfaces de cada Service.
+
+46) Linkar as Interfaces com as Implementações
+
+47) Alterar todas as Injeções de Dependências para injetar a Interface.
+
+48) Fim
 
 # Fontes para consultas:
 - Jose Carlos Macoratti: https://www.youtube.com/watch?v=L1bJUKZV0b0
